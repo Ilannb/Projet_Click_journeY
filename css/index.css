@@ -1,6 +1,132 @@
-/* CSS Reset  */
+/* Variables for the graphic charter */
+:root {
+  --primary-color: #004449;
+  --secondary-color: #40916d;
+  --accent-color: #36868e;
+  --background-color: #f4f1eb;
+  --text-color: #737373;
+  --light-text: #FFFFFF;
+  --border-radius: 6px;
+}
+
+/* CSS Reset */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
+
+/* Global rules */
+.underlined {
+  text-decoration: underline;
+}
+
+
+body {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+
+/* Main */
+/* Hero Section */
+.hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.5)), url('/src/img/paysage.png');
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--light-text);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  max-width: 900px;
+  padding: 2rem;
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-description {
+  font-size: 1.2rem;
+}
+
+.search-container {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--secondary-color);
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding-right: 1rem;
+  width: 60%;
+  border: 2px solid transparent;
+}
+
+.search-bar input {
+  flex: 1;
+  outline: none;
+  font-size: 1rem;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+.search-bar:focus-within {
+  border: 2px solid var(--secondary-color);
+}
+
+.filter-btn {
+  padding: 1rem 1rem;
+  background-color: white;
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+  padding: 1rem 1.7rem;
+}
+
+.search-btn:hover {
+  background-color: var(--accent-color);
+}
+
+.search-btn:active {
+  opacity: 0.8;
+} 
