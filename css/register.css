@@ -1,0 +1,211 @@
+/* Variables pour la charte graphique */
+:root {
+  --primary-color: #004449;
+  --secondary-color: #40916d;
+  --accent-color: #36868e;
+  --background-color: #f4f1eb;
+  --text-color: #737373;
+  --light-text: #FFFFFF;
+  --border-radius: 6px;
+}
+
+/* CSS Reset  */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('../src/img/paysage.png');
+  background-size: cover;
+  background-position: center;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Register-box section */
+.register-box {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 500px;
+}
+
+.register-box a {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.register-box a:hover {
+  text-decoration: underline;
+}
+
+.register-box i {
+  margin: 0.2rem;
+}
+
+.register-box h1 {
+  color: var(--primary-color);
+  text-align: center;
+  margin: 1.5rem 0;
+  font-size: 2rem;
+}
+
+/* Register-form section */
+.name-box {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.name-box .input-box {
+  flex: 1;
+}
+
+/* Input-box section */
+.input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.fa-lock,
+.fa-user,
+.fa-envelope {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-color);
+}
+
+.password-toggle {
+  position: absolute;
+  color: var(--text-color);
+  right: 1rem;
+  border: none;
+  background-color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 0.8rem;
+  padding-left: 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-box input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+/* Password requirements section */
+.password-requirements {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: var(--border-radius);
+}
+
+.password-requirements p {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.password-requirements ul {
+  list-style: none;
+}
+
+.password-requirements li {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.password-requirements .fa-check {
+  color: #28a745;
+}
+
+/* accept-conditions */
+.accept-conditions {
+  margin-bottom: 2rem;
+  margin-left: 0.5rem;
+  accent-color: var(--secondary-color);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.accept-conditions p {
+  font-size: 0.9rem;
+}
+
+.accept-conditions a {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Stay-connected-box checkbox section */
+.stay-connected-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  accent-color: var(--secondary-color);
+}
+
+.stay-connected-box label {
+  font-size: 0.9rem;
+}
+
+/* Register btn section */
+.register-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.register-btn:hover {
+  background-color: var(--accent-color);
+}
+
+/* Login link */
+.login-link {
+  text-align: center;
+}
+
+.login-link a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
