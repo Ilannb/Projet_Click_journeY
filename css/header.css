@@ -1,21 +1,3 @@
-/* Variables for the graphic charter */
-:root {
-  --primary-color: #004449;
-  --secondary-color: #40916d;
-  --accent-color: #36868e;
-  --background-color: #f4f1eb;
-  --text-color: #737373;
-  --light-text: #FFFFFF;
-  --border-radius: 6px;
-}
-
-/* CSS Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* Header */
 header {
   background-color: var(--primary-color);

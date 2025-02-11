@@ -1,27 +1,7 @@
-/* Variables pour la charte graphique */
-:root {
-  --primary-color: #004449;
-  --secondary-color: #40916d;
-  --accent-color: #36868e;
-  --background-color: #f4f1eb;
-  --text-color: #737373;
-  --light-text: #FFFFFF;
-  --border-radius: 6px;
-}
-
-/* CSS Reset  */
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: Roboto, Arial, Helvetica, sans-serif;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('../src/img/paysage.png');
   background-size: cover;
   background-position: center;
-  line-height: 1.6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -148,6 +128,7 @@ body {
   display: flex;
   gap: 0.3rem;
   align-items: center;
+  color: black;
 }
 
 .accept-conditions p {
@@ -156,19 +137,6 @@ body {
 
 .accept-conditions a {
   font-weight: 700;
-  font-size: 0.9rem;
-}
-
-/* Stay-connected-box checkbox section */
-.stay-connected-box {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  accent-color: var(--secondary-color);
-}
-
-.stay-connected-box label {
   font-size: 0.9rem;
 }
 
@@ -198,6 +166,7 @@ body {
 /* Login link */
 .login-link {
   text-align: center;
+  color: black;
 }
 
 .login-link a {
