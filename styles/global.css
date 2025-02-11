@@ -1,11 +1,14 @@
 /* Variables for the graphic charter */
 :root {
+  /* Colors */
   --primary-color: #004449;
   --secondary-color: #40916d;
   --accent-color: #36868e;
   --background-color: #f4f1eb;
   --text-color: #737373;
   --light-text: #FFFFFF;
+
+  /* Layout */
   --border-radius: 6px;
 }
 
@@ -17,17 +20,17 @@
 }
 
 /* Global rules */
+body {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
 .underlined {
   text-decoration: underline;
 }
 
 .bolded {
   font-weight: 700;
-}
-
-body {
-  font-family: Roboto, Arial, Helvetica, sans-serif;
-  line-height: 1.6;
-  color: var(--text-color);
-  background-color: var(--background-color);
 }

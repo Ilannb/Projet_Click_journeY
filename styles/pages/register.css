@@ -1,5 +1,5 @@
 body {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('../src/img/paysage.png');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('/src/img/paysage.png');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -12,9 +12,9 @@ body {
 /* Register-box section */
 .register-box {
   background: rgba(255, 255, 255, 0.8);
+  padding: 1.5rem 2rem;
   border-radius: var(--border-radius);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  padding: 1.5rem 2rem;
   width: 100%;
   max-width: 500px;
 }
@@ -40,6 +40,15 @@ body {
   font-size: 2rem;
 }
 
+/* Register-form section */
+.name-box {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.name-box .input-box {
+  flex: 1;
+}
 
 /* Input-box section */
 .input-box {
@@ -54,6 +63,7 @@ body {
 .fa-envelope {
   position: absolute;
   left: 1rem;
+  color: var(--text-color);
 }
 
 .password-toggle {
@@ -81,31 +91,57 @@ body {
   border-color: var(--secondary-color);
 }
 
-
-/* Row section */
-.row {
-  display: flex;
-  align-content: center;
-  justify-content: space-between;
-  padding: 0 0.5rem;
+/* Password requirements section */
+.password-requirements {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: var(--border-radius);
 }
 
-/* Stay-connected-box checkbox section */
-.stay-connected-box {
+.password-requirements p {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.password-requirements ul {
+  list-style: none;
+}
+
+.password-requirements li {
+  color: var(--text-color);
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  accent-color: var(--secondary-color);
 }
 
-.stay-connected-box label {
-  font-size: 0.9rem;
+.password-requirements .fa-check {
+  color: #28a745;
+}
+
+/* accept-conditions */
+.accept-conditions {
+  margin-bottom: 2rem;
+  margin-left: 0.5rem;
+  accent-color: var(--secondary-color);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
   color: black;
 }
 
-/* Login btn section */
-.login-btn {
+.accept-conditions p {
+  font-size: 0.9rem;
+}
+
+.accept-conditions a {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Register btn section */
+.register-btn {
   width: 100%;
   padding: 1rem;
   background-color: var(--secondary-color);
@@ -123,22 +159,22 @@ body {
   margin-bottom: 1rem;
 }
 
-.login-btn:hover {
+.register-btn:hover {
   background-color: var(--accent-color);
 }
 
-/* Register link */
-.register-link {
+/* Login link */
+.login-link {
   text-align: center;
   color: black;
 }
 
-.register-link a {
+.login-link a {
   color: var(--secondary-color);
   text-decoration: none;
   font-weight: 600;
 }
 
-.register-link a:hover {
+.login-link a:hover {
   text-decoration: underline;
 }

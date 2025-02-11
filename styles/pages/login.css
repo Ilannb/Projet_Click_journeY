@@ -1,5 +1,5 @@
 body {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('../src/img/paysage.png');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('/src/img/paysage.png');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -9,31 +9,31 @@ body {
   align-items: center;
 }
 
-/* Reset-box section */
-.reset-box {
+/* Register-box section */
+.register-box {
   background: rgba(255, 255, 255, 0.8);
-  padding: 1.5rem 2rem;
   border-radius: var(--border-radius);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 1.5rem 2rem;
   width: 100%;
   max-width: 500px;
 }
 
-.reset-box a {
+.register-box a {
   color: var(--secondary-color);
   font-size: 0.9rem;
   text-decoration: none;
 }
 
-.reset-box a:hover {
+.register-box a:hover {
   text-decoration: underline;
 }
 
-.reset-box i {
+.register-box i {
   margin: 0.2rem;
 }
 
-.reset-box h1 {
+.register-box h1 {
   color: var(--primary-color);
   text-align: center;
   margin: 1.5rem 0;
@@ -49,6 +49,7 @@ body {
 }
 
 .fa-lock,
+.fa-user,
 .fa-envelope {
   position: absolute;
   left: 1rem;
@@ -59,7 +60,7 @@ body {
   color: var(--text-color);
   right: 1rem;
   border: none;
-  background-color: transparent;
+  background-color: white;
   font-size: 1rem;
   cursor: pointer;
 }
@@ -79,36 +80,30 @@ body {
   border-color: var(--secondary-color);
 }
 
-/* Password requirements section */
-.password-requirements {
-  margin: 1.5rem 0;
-  padding: 0.5rem 1rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: var(--border-radius);
+/* Row section */
+.row {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
 }
 
-.password-requirements p {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.password-requirements ul {
-  list-style: none;
-}
-
-.password-requirements li {
-  font-size: 0.9rem;
+/* Stay-connected-box checkbox section */
+.stay-connected-box {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  accent-color: var(--secondary-color);
 }
 
-.password-requirements .fa-check {
-  color: #28a745;
+.stay-connected-box label {
+  font-size: 0.9rem;
+  color: black;
 }
 
-/* Reset button section */
-.reset-btn {
+/* Login btn section */
+.login-btn {
   width: 100%;
   padding: 1rem;
   background-color: var(--secondary-color);
@@ -126,22 +121,22 @@ body {
   margin-bottom: 1rem;
 }
 
-.reset-btn:hover {
+.login-btn:hover {
   background-color: var(--accent-color);
 }
 
-/* Login link */
-.login-link {
+/* Register link */
+.register-link {
   text-align: center;
   color: black;
 }
 
-.login-link a {
+.register-link a {
   color: var(--secondary-color);
   text-decoration: none;
   font-weight: 600;
 }
 
-.login-link a:hover {
+.register-link a:hover {
   text-decoration: underline;
 }
