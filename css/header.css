@@ -1,0 +1,100 @@
+/* Variables for the graphic charter */
+:root {
+  --primary-color: #004449;
+  --secondary-color: #40916d;
+  --accent-color: #36868e;
+  --background-color: #f4f1eb;
+  --text-color: #737373;
+  --light-text: #FFFFFF;
+  --border-radius: 6px;
+}
+
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header */
+header {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+nav {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.logo img {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.logo a {
+  color: var(--light-text);
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.sale-box {
+  margin: 0px 14px;
+  color: var(--light-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sale {
+  color: var(--light-text);
+}
+
+.links-box {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.links-box a {
+  color: var(--light-text);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease, opacity 0.1s ease;
+}
+
+.links-box a:hover {
+  color: var(--secondary-color);
+}
+
+.links-box a:active {
+  color: var(--accent-color);
+  opacity: 0.6;
+}
+
+.signup-btn {
+  background-color: var(--accent-color);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+}
+
+.signup-btn:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-text) !important;
+}
