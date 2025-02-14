@@ -1,0 +1,143 @@
+/* Main content */
+.users-section {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--background-color);
+  margin-top: 60px;
+}
+
+.users-section-header {
+  margin-bottom: 1rem;
+}
+
+.users-section-header h1 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.filter-select {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  outline: none;
+  color: var(--text-color);
+  background-color: white;
+}
+
+/* Users table */
+.users-table {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  font-weight: 500;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Action buttons */
+.actions-cell {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.1rem;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.edit {
+  background-color: var(--secondary-color);
+}
+
+.delete {
+  background-color: var(--red-color);
+}
+
+.ban {
+  background-color: #6c757d;
+}
+
+.unban {
+  background-color: var(--green-color);
+}
+
+.promote {
+  background-color: var(--blue-color);
+}
+
+.history {
+  background-color: var(--primary-color);
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  opacity: 0.8;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.active {
+  background-color: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

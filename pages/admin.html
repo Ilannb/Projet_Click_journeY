@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <!-- Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width:device-width, initial-scale=1.0">
+  <meta name="author" content="MI5-I | Illya Liganov, Ilann Boudria, Rindra Rakotonirina">
+  <meta name="description" content="Admin page for travel agency">
+  <meta name="keywords" content="">
+
+  <!-- Roboto Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/styles/global.css">
+  <link rel="stylesheet" href="/styles/components/header.css">
+  <link rel="stylesheet" href="/styles/components/search-input.css">
+  <link rel="stylesheet" href="/styles/components/badge.css">
+  <link rel="stylesheet" href="/styles/pages/admin.css">
+
+  <!-- Tab Display -->
+  <link rel="icon" href="/src/img/favicon.ico" type="image/x-icon">
+  <title>LakEvasion - Administration</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="/src/img/favicon.ico" alt="main-icon">
+        <a href="/">LakEvasion</a>
+      </div>
+      <div class="middle-section">
+        <p class="header_title">Panel Administrateur</p>
+      </div>
+      <div class="right-section">
+        <div class="user">
+          <p>Admin</p>
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+        </div>
+        <div class="links-box">
+          <a href="/" class="logout-btn">Déconnexion
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="users-section">
+      <div class="users-section-header">
+        <h1>Gestion des Utilisateurs</h1>
+        <div class="search-box">
+          <div class="search-bar">
+            <input type="text" placeholder="Rechercher un utilisateur...">
+            <i class="fas fa-search"></i>
+          </div>
+          <select class="filter-select">
+            <option value="all">Tous les utilisateurs</option>
+            <option value="vip">VIP</option>
+            <option value="regular">Standard</option>
+            <option value="banned">Bannis</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="users-table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Date d'inscription</th>
+              <th>Statut</th>
+              <th>Actions</th>
+              <th>Voir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#01</td>
+              <td>Nom</td>
+              <td>Prénom</td>
+              <td>exemple@email.com</td>
+              <td>xx/xx/xxxx</td>
+              <td><span class="status vip">VIP</span></td>
+              <td class="actions-cell">
+                <button class="action-btn edit" title="Modifier">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn promote" title="Promouvoir">
+                  <i class="fas fa-crown"></i>
+                </button>
+                <button class="action-btn delete" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button class="action-btn ban" title="Bannir">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </td>
+              <td class="history-cell">
+                <a href="/pages/user.html" class="action-btn history" title="Voir">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>#02</td>
+              <td>Nom</td>
+              <td>Prénom</td>
+              <td>exemple@email.com</td>
+              <td>xx/xx/xxxx</td>
+              <td><span class="status standard">Standard</span></td>
+              <td class="actions-cell">
+                <button class="action-btn edit" title="Modifier">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn promote" title="Promouvoir">
+                  <i class="fas fa-crown"></i>
+                </button>
+                <button class="action-btn delete" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button class="action-btn ban" title="Bannir">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </td>
+              <td class="history-cell">
+                <a href="/pages/user.html" class="action-btn history" title="Voir">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>#03</td>
+              <td>Nom</td>
+              <td>Prénom</td>
+              <td>exemple@email.com</td>
+              <td>xx/xx/xxxx</td>
+              <td><span class="status banned">Banni</span></td>
+              <td class="actions-cell">
+                <button class="action-btn edit" title="Modifier">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn promote" title="Promouvoir">
+                  <i class="fas fa-crown"></i>
+                </button>
+                <button class="action-btn delete" title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button class="action-btn unban" title="Débannir">
+                  <i class="fas fa-unlock"></i>
+                </button>
+              </td>
+              <td class="history-cell">
+                <a href="/pages/user.html" class="action-btn history" title="Voir">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
