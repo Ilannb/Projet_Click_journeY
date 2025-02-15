@@ -9,8 +9,8 @@ body {
   align-items: center;
 }
 
-/* Register-box section */
-.register-box {
+/* Login-box section */
+.login-box {
   background: rgba(255, 255, 255, 0.8);
   border-radius: var(--border-radius);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -19,21 +19,21 @@ body {
   max-width: 500px;
 }
 
-.register-box a {
+.login-box a {
   color: var(--secondary-color);
   font-size: 0.9rem;
   text-decoration: none;
 }
 
-.register-box a:hover {
+.login-box a:hover {
   text-decoration: underline;
 }
 
-.register-box i {
-  margin: 0.2rem;
+.login-box a>i {
+  margin-right: 0.3rem;
 }
 
-.register-box h1 {
+.login-box h1 {
   color: var(--primary-color);
   text-align: center;
   margin: 1.5rem 0;
@@ -41,42 +41,32 @@ body {
 }
 
 /* Input-box section */
-.input-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.8rem;
+.input-bar {
+  margin-bottom: 0.5rem;
 }
 
-.fa-lock,
-.fa-user,
-.fa-envelope {
-  position: absolute;
+.input-bar>i {
   left: 1rem;
 }
 
 .password-toggle {
   position: absolute;
+  display: flex;
+  align-items: center;
   color: var(--text-color);
+  background-color: white;
   right: 1rem;
   border: none;
-  background-color: white;
   font-size: 1rem;
   cursor: pointer;
 }
 
-.input-box input {
-  width: 100%;
-  padding: 0.8rem;
+.input-bar input {
   padding-left: 2.5rem;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
   font-size: 1rem;
-  transition: border-color 0.3s ease;
 }
 
-.input-box input:focus {
-  outline: none;
+.input-bar input:focus {
   border-color: var(--secondary-color);
 }
 
@@ -86,6 +76,7 @@ body {
   align-content: center;
   justify-content: space-between;
   padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Stay-connected-box checkbox section */
@@ -94,12 +85,17 @@ body {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
+}
+
+.stay-connected-box input {
   accent-color: var(--secondary-color);
+  cursor: pointer;
 }
 
 .stay-connected-box label {
   font-size: 0.9rem;
   color: black;
+  cursor: pointer;
 }
 
 /* Login btn section */
