@@ -1,0 +1,156 @@
+/* Main content */
+main {
+  margin-top: 60px;
+}
+
+.page-container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Sidebar filters */
+.filters-sidebar {
+  width: 300px;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.filters-content {
+  padding: 1.5rem;
+}
+
+.filters-sidebar h2 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.filter-section:last-child {
+  border-bottom: none;
+}
+
+.filter-section h3 {
+  color: var(--secondary-color);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Search bar */
+.search-bar input:focus-within {
+  border-color: var(--secondary-color);
+}
+
+/* Checkbox */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  accent-color: var(--secondary-color);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Price filter */
+.range-filter {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-bar input {
+  width: 100%;
+}
+
+.input-bar input:focus-within {
+  border-color: var(--secondary-color);
+}
+
+/* Filter btn */
+.apply-filters-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.apply-filters-btn:hover {
+  background-color: var(--accent-color);
+}
+
+/* Result section */
+.destinations-results {
+  flex: 1;
+}
+
+.results-header {
+  margin-bottom: 2rem;
+}
+
+.results-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-count {
+  color: var(--secondary-color);
+}
+
+.sort-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sort-box select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  color: var(--text-color);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.sort-box select:focus {
+  border-color: var(--secondary-color);
+}
