@@ -98,6 +98,11 @@ nav {
   opacity: 0.9;
 }
 
+.login-btn {
+  padding: 0 !important;
+  margin-right: 0.5rem;
+}
+
 .signup-btn {
   background-color: var(--accent-color);
   border-radius: var(--border-radius);
