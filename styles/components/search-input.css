@@ -1,18 +1,22 @@
-.search-box {
+.search-box,
+.input-box {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.search-bar {
+.search-bar,
+.input-bar {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: 450px;
   display: flex;
   align-items: center;
 }
 
-.search-bar input {
+.search-bar input,
+.input-bar input {
   width: 100%;
   padding: 0.8rem;
   padding-right: 2.5rem;
@@ -21,13 +25,16 @@
   transition: border-color 0.3s ease;
 }
 
-.search-bar input:focus-within {
+.search-bar input:focus-within,
+.input-bar input:focus-within {
   outline: none;
   border-color: var(--primary-color);
 }
 
-.search-bar i {
+.search-bar>i,
+.input-bar>i {
   position: absolute;
   right: 1rem;
   color: var(--text-color);
+  max-width: max-content;
 }
