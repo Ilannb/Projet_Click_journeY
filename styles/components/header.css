@@ -84,6 +84,20 @@ nav {
   opacity: 0.75;
 }
 
+.logout-btn {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: var(--accent-color) !important;
+  color: var(--light-text) !important;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  opacity: 0.9;
+}
+
 .signup-btn {
   background-color: var(--accent-color);
   border-radius: var(--border-radius);
