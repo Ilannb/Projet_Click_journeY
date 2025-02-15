@@ -4,7 +4,7 @@
 <head>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width:device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="MI5-I | Illya Liganov, Ilann Boudria, Rindra Rakotonirina">
   <meta name="description" content="Main page for travel agency">
   <meta name="keywords" content="">
@@ -19,14 +19,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="styles/global.css">
-  <link rel="stylesheet" href="styles/components/header.css">
-  <link rel="stylesheet" href="styles/components/footer.css">
-  <link rel="stylesheet" href="styles/components/card.css">
-  <link rel="stylesheet" href="styles/pages/index.css">
+  <link rel="stylesheet" href="/styles/global.css">
+  <link rel="stylesheet" href="/styles/components/header.css">
+  <link rel="stylesheet" href="/styles/components/footer.css">
+  <link rel="stylesheet" href="/styles/components/card.css">
+  <link rel="stylesheet" href="/styles/pages/index.css">
 
   <!-- Tab Display -->
-  <link rel="icon" href="src/img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/src/img/favicon.ico" type="image/x-icon">
   <title>LakEvasion - Accueil</title>
 </head>
 
@@ -42,8 +42,8 @@
         <p>Offre unique : Hôtel <span class="underlined">gratuit</span> pour les voyages en <span class="bolded">France</span> !</p>
       </div>
       <div class="links-box">
-        <a href="pages/login.html">Se connecter</a>
-        <a href="pages/register.html" class="signup-btn">S'inscrire</a>
+        <a href="/pages/login.html">Se connecter</a>
+        <a href="/pages/register.html" class="signup-btn">S'inscrire</a>
       </div>
     </nav>
   </header>
@@ -59,7 +59,7 @@
             <input type="text" placeholder="Quel lac souhaitez-vous découvrir ?">
             <i class="fa-solid fa-location-dot"></i>
           </div>
-          <a href="/" class="filter-btn">
+          <a href="/pages/destinations.html" class="filter-btn">
             <i class="fa-solid fa-sliders"></i>
           </a>
           <button class="search-btn">
@@ -85,17 +85,18 @@
               </div>
               <div class="duration-box">
                 <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration">5 jours</p>
+                <p class="duration"><span class="trip-duration">5</span> jours</p>
               </div>
               <div class="activity-box">
                 <i class="fa-solid fa-sailboat"></i>
-                <p class="duration"></p>
+                <p class="activity">Navigation</p>
               </div>
             </div>
-            <p class="price">À partir de <span class="euros bolded">690€</span></p>
+            <p class="price">À partir de <span class="euros bolded"><span id="trip-price">690</span>€</span></p>
             <button class="details-btn">Voir les détails</button>
           </div>
         </div>
+
         <div class="destination-card">
           <img class="destination-image" src="/src/img/plitvice.jpg" alt="destination-preview">
           <div class="destination-content">
@@ -107,17 +108,18 @@
               </div>
               <div class="duration-box">
                 <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration">3 jours</p>
+                <p class="duration"><span class="trip-duration">3</span> jours</p>
               </div>
               <div class="activity-box">
                 <i class="fa-solid fa-person-hiking"></i>
-                <p class="duration"></p>
+                <p class="activity">Randonnée</p>
               </div>
             </div>
-            <p class="price">À partir de <span class="euros bolded">150€</span></p>
+            <p class="price">À partir de <span class="euros bolded"><span id="trip-price">150</span>€</span></p>
             <button class="details-btn">Voir les détails</button>
           </div>
         </div>
+
         <div class="destination-card">
           <img class="destination-image" src="/src/img/taupo.jpg" alt="destination-preview">
           <div class="destination-content">
@@ -129,14 +131,14 @@
               </div>
               <div class="duration-box">
                 <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration"> 4 jours</p>
+                <p class="duration"><span class="trip-duration">4</span> jours</p>
               </div>
               <div class="activity-box">
-                <i class="fa-solid fa-eye"></i>
-                <p class="duration"></p>
+                <i class="fa-solid fa-water"></i>
+                <p class="activity">Baignade</p>
               </div>
             </div>
-            <p class="price">À partir de <span class="euros bolded">1000€</span></p>
+            <p class="price">À partir de <span class="euros bolded"><span id="trip-price">1000</span>€</span></p>
             <button class="details-btn">Voir les détails</button>
           </div>
         </div>
@@ -181,27 +183,26 @@
           <h4>Navigation</h4>
           <ul class="footer-links">
             <li><a href="/">Accueil</a></li>
-            <li><a href="/">Nos Destinations</a></li>
-            <li><a href="/">Activités</a></li>
-            <li><a href="pages/about.html">À propos</a></li>
+            <li><a href="/pages/destinations.html">Nos Destinations</a></li>
+            <li><a href="/pages/about.html">À propos</a></li>
           </ul>
         </div>
   
         <div class="footer-section">
           <h4>Services</h4>
           <ul class="footer-links">
-            <li><a href="/">Hebergement</a></li>
-            <li><a href="/">Restauration</a></li>
-            <li><a href="/">Activités</a></li>
+            <li><a href="/pages/housing.html">Hebergement</a></li>
+            <li><a href="/pages/restoration.html">Restauration</a></li>
+            <li><a href="/pages/activities.html">Activités</a></li>
           </ul>
         </div>
   
         <div class="footer-section contact-section">
           <h4>Contactez-nous</h4>
           <div class="contact-info">
-            <p><i class="fas fa-phone"></i> +33 1 34 25 10 10</p>
-            <p><i class="fas fa-envelope"></i> contact@lakevasion.fr</p>
-            <p><i class="fas fa-map-marker-alt"></i> Av. du Parc, 95000 Cergy</p>
+            <div><i class="fas fa-phone"></i><a href="tel:0134251010">+33 1 34 25 10 10</a></div>
+            <div><i class="fas fa-envelope"></i><a href="mailto:contact@lakevasion.fr">contact@lakevasion.fr</a></div>
+            <div><i class="fas fa-map-marker-alt"></i><address>Av. du Parc, 95000 Cergy</address></div>
           </div>
         </div>
       </div>

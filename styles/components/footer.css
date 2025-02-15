@@ -92,19 +92,14 @@ footer {
 }
 
 /* Contact section  */
-.contact-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 .contact-info {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  text-align: center;
 }
 
-.contact-info p {
+.contact-info div {
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -113,6 +108,17 @@ footer {
 
 .contact-info i {
   color: var(--secondary-color);
+  width: 16px;
+}
+
+.contact-info a,
+.contact-info address {
+  text-decoration: none;
+  color: var(--light-text);
+}
+
+.contact-info address {
+  font-style: normal;
 }
 
 /* Bottom footer section */
