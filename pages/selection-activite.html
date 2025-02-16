@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <!-- Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="MI5-I | Illya Liganov, Ilann Boudria, Rindra Rakotonirina">
+  <meta name="description" content="Main page for travel agency">
+  <meta name="keywords" content="">
+
+  <!-- Roboto Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/components/header.css">
+  <link rel="stylesheet" href="../styles/components/footer.css">
+  <link rel="stylesheet" href="../styles/components/card.css">
+  <link rel="stylesheet" href="../styles/components/search-input.css">
+  <link rel="stylesheet" href="../styles/pages/destinations.css">
+  <link rel="stylesheet" href="../styles/pages/selection-hebergement.css">
+
+  <!-- Tab Display -->
+  <link rel="icon" href="../src/img/favicon.ico" type="image/x-icon">
+  <title>LakEvasion - Sélection activité</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="../src/img/favicon.ico" alt="main-icon">
+        <a href="../index.html">LakEvasion</a>
+      </div>
+      <div class="middle-section">
+        <p class="header_title">Selectionnez les activités</p>
+      </div>
+      <div class="links-box">
+        <a href="login.html" class="login-btn">Se connecter</a>
+        <a href="register.html" class="signup-btn">S'inscrire</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-container">
+      <aside class="filters-sidebar">
+        <h2>Filtres</h2>
+        <form class="filters-content" action="" method="get">
+
+          <div class="filter-section">
+            <h3>Recherche</h3>
+            <div class="search-bar">
+              <input type="text" placeholder="Rechercher une activité...">
+              <i class="fas fa-search"></i>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h3>Type</h3>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="activity" value="hiking">
+                Randonées
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="activity" value="dipping">
+                Baignades
+              </label>  
+              <label class="checkbox-label">
+                <input type="checkbox" name="activity" value="biking">
+                VTT
+              </label>
+            </div>
+          </div>
+          <div class="filter-section">
+            <h3>Budget</h3>
+            <div class="range-filter">
+              <div class="input-bar">
+                <input type="text" placeholder="Min">
+                <i class="fas fa-euro"></i>
+              </div>
+              <p class="bolded">-</p>
+              <div class="input-bar">
+                <input type="text" placeholder="Max">
+                <i class="fas fa-euro"></i>
+              </div>
+            </div>
+          </div>
+
+          <button class="apply-filters-btn">
+            Appliquer les filtres
+            <i class="fas fa-filter"></i>
+          </button>
+          <button class="confirm-selection-btn">
+            Confirmer la sélection
+            <i class="fas fa-selection"></i>
+        </form>
+      </aside>
+
+      <section class="destinations-results">
+        <div class="results-header">
+          <div class="results-controls">
+            <p><span id="results-count" class="results-count bolded">4</span> résultats trouvés</p>
+            <div class="sort-box">
+              <label for="sort">Trier par :</label>
+              <select id="sort" name="sort">
+                <option value="popular">Popularité</option>
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="duration">Durée</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="destinations-cards-box">
+
+          <div class="destination-card">
+            <input class="radio" type="checkbox" checked>
+            <img class="destination-image" src="https://placehold.co/600x400" alt="destination-preview">
+            <div class="destination-content">
+              <h3 class="title">Activité 1</h3>
+              <div class="destination-description">
+                <div class="evaluation-box">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                </div>
+              </div>
+              <p class="price">À partir de <span class="euros bolded"><span id="trip-price">30</span>€</span> /jour</p>
+            </div>
+          </div>
+
+          <div class="destination-card">
+            <input class="radio" type="checkbox">
+            <img class="destination-image" src="https://placehold.co/600x400" alt="destination-preview">
+            <div class="destination-content">
+              <h3 class="title">Activité 2</h3>
+              <div class="destination-description">
+                <div class="activity-box">
+                </div>
+                <div class="evaluation-box">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                </div>
+              </div>
+              <p class="price">À partir de <span class="euros bolded"><span id="trip-price">20</span>€</span> /jour</p>
+            </div>
+          </div>
+
+          <div class="destination-card">
+            <input class="radio" type="checkbox">
+            <img class="destination-image" src="https://placehold.co/600x400" alt="destination-preview">
+            <div class="destination-content">
+              <h3 class="title">Activité 3</h3>
+              <div class="destination-description">
+                <div class="evaluation-box">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                </div>
+              </div>
+              <p class="price">À partir de <span class="euros bolded"><span id="trip-price">50</span>€</span> /jour</p>
+            </div>
+          </div>
+
+          <div class="destination-card">
+            <input class="radio" type="checkbox">
+            <img class="destination-image" src="https://placehold.co/600x400" alt="destination-preview">
+            <div class="destination-content">
+              <h3 class="title">Activité 4</h3>
+              <div class="destination-description">
+                <div class="evaluation-box">
+                  <i class="fa-regular fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
+                </div>
+              </div>
+              <p class="price">À partir de <span class="euros bolded"><span id="trip-price">?</span>€</span> /jour</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-box">
+      <div class="footer-top">
+        <div class="footer-section agency-section">
+          <div class="footer-logo">
+            <img src="../src/img/favicon.ico" alt="LakEvasion Logo" />
+            <h3>LakEvasion</h3>
+          </div>
+          <p class="agency">Votre spécialiste des voyages lacustres depuis 2025. Découvrez des expériences uniques au bord des plus beaux lacs du monde.</p>
+        </div>
+  
+        <div class="footer-section">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html">Accueil</a></li>
+            <li><a href="destinations.html">Nos Destinations</a></li>
+            <li><a href="about.html">À propos</a></li>
+          </ul>
+        </div>
+  
+        <div class="footer-section">
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="housing.html">Hebergement</a></li>
+            <li><a href="restoration.html">Restauration</a></li>
+            <li><a href="activities.html">Activités</a></li>
+          </ul>
+        </div>
+  
+        <div class="footer-section contact-section">
+          <h4>Contactez-nous</h4>
+          <div class="contact-info">
+            <div><i class="fas fa-phone"></i><a href="tel:0134251010">+33 1 34 25 10 10</a></div>
+            <div><i class="fas fa-envelope"></i><a href="mailto:contact@lakevasion.fr">contact@lakevasion.fr</a></div>
+            <div class="adress-box"><i class="fas fa-map-marker-alt"></i><address>Av. du Parc, 95000 Cergy</address></div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="footer-bottom">
+        <p>&copy; 2025 LakEvasion. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

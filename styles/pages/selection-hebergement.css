@@ -1,0 +1,64 @@
+/* Turning card into a radio input */
+.radio {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.destination-card {
+  position: relative;
+}
+
+.price {
+  margin-top: 1.5rem;
+}
+
+.destination-card:has(.radio:checked) {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.destination-card:has(.radio:checked) .price,
+.destination-card:has(.radio:checked) .title,
+.destination-card:has(.radio:checked) .euros {
+  color: var(--background-color);
+}
+
+.destination-card:has(.radio:checked) .title {
+  color: var(--background-color);
+}
+
+.destination-card:has(.radio:active) {
+  transform: translateY(5px);
+}
+
+.confirm-selection-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.confirm-selection-btn:hover {
+  background-color: var(--accent-color);
+}
+.evaluation-box{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+}
