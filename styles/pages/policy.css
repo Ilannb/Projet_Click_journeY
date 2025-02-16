@@ -1,6 +1,6 @@
 /* Hero content */
 .hero {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.5)), url('/src/img/plateau-demparis.jpg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.5)), url('../../src/img/plateau-demparis.jpg');
   background-size: cover;
   background-position: center;
   height: 50vh;
