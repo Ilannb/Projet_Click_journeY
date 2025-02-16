@@ -73,16 +73,16 @@
 
 .details-btn {
   display: flex;
-  gap: 0.5rem;
   justify-content: center;
-  width: 100%;
-  padding: 0.8rem;
+  align-items: center;
+  gap: 0.5rem;
   background-color: var(--secondary-color);
   color: var(--light-text);
-  border: none;
   border-radius: var(--border-radius);
-  font-size: 1rem;
+  font-size: 0.95rem;
+  text-decoration: none;
   cursor: pointer;
+  padding: 0.8rem;
   transition: background-color 0.3s ease, opacity 0.1s ease;
 }
 
