@@ -1,0 +1,22 @@
+/* Status badges */
+.status {
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status.vip {
+  background-color: var(--blue-color);
+  color: white;
+}
+
+.status.standard {
+  background-color: var(--green-color);
+  color: white;
+}
+
+.status.banned {
+  background-color: var(--red-color);
+  color: white;
+}
