@@ -47,10 +47,8 @@ footer {
   color: var(--light-text);
 }
 
-.agency-description {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
+.agency {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Links sections */
@@ -103,7 +101,11 @@ footer {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  color: rgba(255, 255, 255, 0.9);
+}
+
+.contact-info div a,
+.contact-info div address {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .contact-info i {

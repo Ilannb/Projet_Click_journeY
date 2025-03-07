@@ -64,7 +64,7 @@ body {
   display: flex;
   align-items: center;
   color: var(--text-color);
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   right: 1rem;
   border: none;
   font-size: 1rem;
@@ -103,6 +103,11 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.password-requirements li i {
+  width: 13px;
+  text-align: center;
 }
 
 .password-requirements .fa-check {

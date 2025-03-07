@@ -196,6 +196,10 @@ main {
   color: var(--text-color);
 }
 
+.total-price {
+  margin-bottom: 0.5rem;
+}
+
 .book-button {
   display: flex;
   justify-content: center;
