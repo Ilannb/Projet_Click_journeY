@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_id']);
+
+require_once(__DIR__ . '/../app/includes/logout.php');
+require_once(__DIR__ . '/../app/includes/destinations.php');
+
+// Retrieve 3 random destinations (or all if there are 3 or fewer)
+$destinations = getRandomDestinations(3);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -36,16 +48,40 @@
     <nav>
       <div class="logo">
         <img src="assets/src/img/favicon.ico" alt="main-icon">
-        <a href="index.html">LakEvasion</a>
+        <a href="/">LakEvasion</a>
       </div>
       <div class="middle-section">
         <i class="fa-solid fa-bullhorn"></i>
-        <p>Offre unique : Hôtel <span class="underlined">gratuit</span> pour les voyages en <span class="bolded">France</span> !</p>
+        <p>Offre unique : Hôtel <span class="underlined">gratuit</span> pour les voyages en <span
+            class="bolded">France</span> !</p>
       </div>
-      <div class="links-box">
-        <a href="pages/login.html" class="login-btn">Se connecter</a>
-        <a href="pages/register.html" class="signup-btn">S'inscrire</a>
-      </div>
+      <?php if ($isLoggedIn): ?>
+        <!-- User not connected -->
+        <div class="right-section">
+          <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+            <div class="user">
+              <a class="user-link" href="pages/admin"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+          <?php else: ?>
+          <div class="user">
+            <a class="user-link" href="pages/user"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <?php endif; ?>
+          <div class="links-box">
+            <a href="?logout=1" class="logout-btn">Déconnexion
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+          </div>
+        </div>
+      <?php else: ?>
+        <!-- User connected -->
+        <div class="links-box">
+          <a href="pages/login" class="login-btn">Se connecter</a>
+          <a href="pages/register" class="signup-btn">S'inscrire</a>
+        </div>
+      <?php endif; ?>
     </nav>
   </header>
 
@@ -60,7 +96,7 @@
             <input type="text" placeholder="Quel lac souhaitez-vous découvrir ?">
             <i class="fa-solid fa-location-dot"></i>
           </div>
-          <a href="pages/destinations.html" class="filter-btn">
+          <a href="pages/destinations" class="filter-btn">
             <i class="fa-solid fa-sliders"></i>
           </a>
           <button class="search-btn">
@@ -75,74 +111,34 @@
       <h2>Destinations qui pourraient vous plaire</h2>
       <div class="destinations-cards-box">
 
-        <div class="destination-card">
-          <img class="destination-image" src="assets/src/img/annecy.jpg" alt="destination-preview">
-          <div class="destination-content">
-            <h3 class="title">Lac d'Annecy</h3>
-            <div class="destination-description">
-              <div class="country-box">
-                <i class="fa-solid fa-globe"></i>
-                <p class="country">France</p>
-              </div>
-              <div class="duration-box">
-                <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration"><span class="trip-duration">5</span> jours</p>
-              </div>
-              <div class="activity-box">
-                <i class="fa-solid fa-sailboat"></i>
-                <p class="activity">Navigation</p>
-              </div>
-            </div>
-            <p class="price">À partir de <span class="euros bolded"><span id="trip-price">690</span>€</span></p>
-            <a href="pages/trip.html" class="details-btn">Voir les détails<i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <div class="destination-card">
-          <img class="destination-image" src="assets/src/img/plitvice.jpg" alt="destination-preview">
-          <div class="destination-content">
-            <h3 class="title">Lacs de Plitvice</h3>
-            <div class="destination-description">
-              <div class="country-box">
-                <i class="fa-solid fa-globe"></i>
-                <p class="country">Croatie</p>
-              </div>
-              <div class="duration-box">
-                <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration"><span class="trip-duration">3</span> jours</p>
-              </div>
-              <div class="activity-box">
-                <i class="fa-solid fa-person-hiking"></i>
-                <p class="activity">Randonnée</p>
+        <?php if (empty($destinations)): ?>
+          <p>Aucune destination disponible pour le moment.</p>
+        <?php else: ?>
+          <?php foreach ($destinations as $destination): ?>
+            <div class="destination-card">
+              <img class="destination-image" src="<?php echo htmlspecialchars($destination['image_path']); ?>" alt="<?php echo htmlspecialchars($destination['title']); ?>">
+              <div class="destination-content">
+                <h3 class="title"><?php echo htmlspecialchars($destination['title']); ?></h3>
+                <div class="destination-description">
+                  <div class="country-box">
+                    <i class="fa-solid fa-globe"></i>
+                    <p class="country"><?php echo htmlspecialchars($destination['country']); ?></p>
+                  </div>
+                  <div class="duration-box">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                    <p class="duration"><span class="trip-duration"><?php echo htmlspecialchars($destination['duration']); ?></span> jours</p>
+                  </div>
+                  <div class="activity-box">
+                    <i class="fa-solid <?php echo htmlspecialchars($destination['activity_icon']); ?>"></i>
+                    <p class="activity"><?php echo htmlspecialchars($destination['activity']); ?></p>
+                  </div>
+                </div>
+                <p class="price">À partir de <span class="euros bolded"><span id="trip-price"><?php echo htmlspecialchars($destination['price']); ?></span>€</span></p>
+                <a href="pages/trip?id=<?php echo $destination['id']; ?>" class="details-btn">Voir les détails<i class="fa-solid fa-arrow-right"></i></a>
               </div>
             </div>
-            <p class="price">À partir de <span class="euros bolded"><span id="trip-price">150</span>€</span></p>
-            <a href="" class="details-btn">Voir les détails<i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <div class="destination-card">
-          <img class="destination-image" src="assets/src/img/taupo.jpg" alt="destination-preview">
-          <div class="destination-content">
-            <h3 class="title">Lac Taupo</h3>
-            <div class="destination-description">
-              <div class="country-box">
-                <i class="fa-solid fa-globe"></i>
-                <p class="country">Nouvelle Zélande</p>
-              </div>
-              <div class="duration-box">
-                <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration"><span class="trip-duration">4</span> jours</p>
-              </div>
-              <div class="activity-box">
-                <i class="fa-solid fa-water"></i>
-                <p class="activity">Baignade</p>
-              </div>
-            </div>
-            <p class="price">À partir de <span class="euros bolded"><span id="trip-price">1000</span>€</span></p>
-            <a href="" class="details-btn">Voir les détails<i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
 
       </div>
     </section>
@@ -177,37 +173,40 @@
             <img src="assets/src/img/favicon.ico" alt="LakEvasion Logo" />
             <h3>LakEvasion</h3>
           </div>
-          <p class="agency">Votre spécialiste des voyages lacustres depuis 2025. Découvrez des expériences uniques au bord des plus beaux lacs du monde.</p>
+          <p class="agency">Votre spécialiste des voyages lacustres depuis 2025. Découvrez des expériences uniques au
+            bord des plus beaux lacs du monde.</p>
         </div>
-  
+
         <div class="footer-section">
           <h4>Navigation</h4>
           <ul class="footer-links">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="pages/destinations.html">Nos Destinations</a></li>
-            <li><a href="pages/about.html">À propos</a></li>
+            <li><a href="/">Accueil</a></li>
+            <li><a href="pages/destinations">Nos Destinations</a></li>
+            <li><a href="pages/about">À propos</a></li>
           </ul>
         </div>
-  
+
         <div class="footer-section">
           <h4>Services</h4>
           <ul class="footer-links">
-            <li><a href="pages/housing.html">Hebergement</a></li>
-            <li><a href="pages/restoration.html">Restauration</a></li>
-            <li><a href="pages/activities.html">Activités</a></li>
+            <li><a href="pages/housing">Hebergement</a></li>
+            <li><a href="pages/restoration">Restauration</a></li>
+            <li><a href="pages/activities">Activités</a></li>
           </ul>
         </div>
-  
+
         <div class="footer-section contact-section">
           <h4>Contactez-nous</h4>
           <div class="contact-info">
             <div><i class="fas fa-phone"></i><a href="tel:0134251010">+33 1 34 25 10 10</a></div>
             <div><i class="fas fa-envelope"></i><a href="mailto:contact@lakevasion.fr">contact@lakevasion.fr</a></div>
-            <div><i class="fas fa-map-marker-alt"></i><address>Av. du Parc, 95000 Cergy</address></div>
+            <div><i class="fas fa-map-marker-alt"></i>
+              <address>Av. du Parc, 95000 Cergy</address>
+            </div>
           </div>
         </div>
       </div>
-  
+
       <div class="footer-bottom">
         <p>&copy; 2025 LakEvasion. Tous droits réservés.</p>
       </div>
