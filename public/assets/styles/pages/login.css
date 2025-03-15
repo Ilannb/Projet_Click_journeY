@@ -131,6 +131,7 @@ body {
   color: var(--secondary-color);
   text-decoration: none;
   font-weight: 600;
+  font-size: inherit;
 }
 
 .register-link a:hover {
