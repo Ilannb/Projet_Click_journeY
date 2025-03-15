@@ -37,3 +37,32 @@ body {
 .bolded {
   font-weight: 700;
 }
+
+/* Error and success alert */
+.error-message,
+.success-message {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+}
+
+.error-message {
+  background-color: #ffe6e6;
+  color: #d9534f;
+  border-left: 4px solid #d9534f;
+}
+
+.success-message {
+  background-color: #e6ffe6;
+  color: #5cb85c;
+  border-left: 4px solid #5cb85c;
+}
+
+.success-message a,
+.error-message a {
+  font-size: inherit !important;
+}
