@@ -9,6 +9,10 @@ require_once(__DIR__ . '/../app/includes/destinations.php');
 
 // Retrieve 3 random destinations (or all if there are 3 or fewer)
 $destinations = getRandomDestinations(3);
+
+// Title of the page
+$icon = '<i class="fa-solid fa-bullhorn"></i>';
+$title = 'Offre unique : Hôtel <span class="underlined">gratuit</span> pour les voyages en <span class="bolded">France</span> !';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,46 +48,7 @@ $destinations = getRandomDestinations(3);
 </head>
 
 <body>
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="assets/src/img/favicon.ico" alt="main-icon">
-        <a href="/">LakEvasion</a>
-      </div>
-      <div class="middle-section">
-        <i class="fa-solid fa-bullhorn"></i>
-        <p>Offre unique : Hôtel <span class="underlined">gratuit</span> pour les voyages en <span
-            class="bolded">France</span> !</p>
-      </div>
-      <?php if ($isLoggedIn): ?>
-        <!-- User not connected -->
-        <div class="right-section">
-          <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-            <div class="user">
-              <a class="user-link" href="pages/admin"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
-              <i class="fa-solid fa-screwdriver-wrench"></i>
-            </div>
-          <?php else: ?>
-          <div class="user">
-            <a class="user-link" href="pages/user"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
-            <i class="fa-solid fa-user"></i>
-          </div>
-          <?php endif; ?>
-          <div class="links-box">
-            <a href="?logout=1" class="logout-btn">Déconnexion
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            </a>
-          </div>
-        </div>
-      <?php else: ?>
-        <!-- User connected -->
-        <div class="links-box">
-          <a href="pages/login" class="login-btn">Se connecter</a>
-          <a href="pages/register" class="signup-btn">S'inscrire</a>
-        </div>
-      <?php endif; ?>
-    </nav>
-  </header>
+  <?php require('components/header.php'); ?>
 
   <main>
     <section class="hero">
@@ -165,53 +130,7 @@ $destinations = getRandomDestinations(3);
     </section>
   </main>
 
-  <footer>
-    <div class="footer-box">
-      <div class="footer-top">
-        <div class="footer-section agency-section">
-          <div class="footer-logo">
-            <img src="assets/src/img/favicon.ico" alt="LakEvasion Logo" />
-            <h3>LakEvasion</h3>
-          </div>
-          <p class="agency">Votre spécialiste des voyages lacustres depuis 2025. Découvrez des expériences uniques au
-            bord des plus beaux lacs du monde.</p>
-        </div>
-
-        <div class="footer-section">
-          <h4>Navigation</h4>
-          <ul class="footer-links">
-            <li><a href="/">Accueil</a></li>
-            <li><a href="pages/destinations">Nos Destinations</a></li>
-            <li><a href="pages/about">À propos</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section">
-          <h4>Services</h4>
-          <ul class="footer-links">
-            <li><a href="pages/housing">Hebergement</a></li>
-            <li><a href="pages/restoration">Restauration</a></li>
-            <li><a href="pages/activities">Activités</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-section contact-section">
-          <h4>Contactez-nous</h4>
-          <div class="contact-info">
-            <div><i class="fas fa-phone"></i><a href="tel:0134251010">+33 1 34 25 10 10</a></div>
-            <div><i class="fas fa-envelope"></i><a href="mailto:contact@lakevasion.fr">contact@lakevasion.fr</a></div>
-            <div><i class="fas fa-map-marker-alt"></i>
-              <address>Av. du Parc, 95000 Cergy</address>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2025 LakEvasion. Tous droits réservés.</p>
-      </div>
-    </div>
-  </footer>
+  <?php require('components/footer.php'); ?>
 </body>
 
 </html>
