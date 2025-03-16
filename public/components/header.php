@@ -1,8 +1,14 @@
+<?php
+if (!defined('BASE_URL')) {
+  define('BASE_URL', '/');
+}
+?>
+
 <header>
   <nav>
     <div class="logo">
-      <img src="assets/src/img/favicon.ico" alt="main-icon">
-      <a href="/">LakEvasion</a>
+      <img src="<?php echo BASE_URL; ?>assets/src/img/favicon.ico" alt="main-icon">
+      <a href="<?php echo BASE_URL; ?>">LakEvasion</a>
     </div>
     <div class="middle-section">
       <?php
@@ -15,16 +21,16 @@
       </p>
     </div>
     <?php if ($isLoggedIn): ?>
-      <!-- User not connected -->
+      <!-- User connected -->
       <div class="right-section">
         <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
           <div class="user">
-            <a class="user-link" href="pages/admin"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
+            <a class="user-link" href="<?php echo BASE_URL; ?>pages/admin"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
             <i class="fa-solid fa-screwdriver-wrench"></i>
           </div>
         <?php else: ?>
           <div class="user">
-            <a class="user-link" href="pages/user"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
+            <a class="user-link" href="<?php echo BASE_URL; ?>pages/user"><?php echo htmlspecialchars($_SESSION['user_firstname']); ?></a>
             <i class="fa-solid fa-user"></i>
           </div>
         <?php endif; ?>
@@ -35,10 +41,10 @@
         </div>
       </div>
     <?php else: ?>
-      <!-- User connected -->
+      <!-- User not connected -->
       <div class="links-box">
-        <a href="pages/login" class="login-btn">Se connecter</a>
-        <a href="pages/register" class="signup-btn">S'inscrire</a>
+        <a href="<?php echo BASE_URL; ?>pages/login" class="login-btn">Se connecter</a>
+        <a href="<?php echo BASE_URL; ?>pages/register" class="signup-btn">S'inscrire</a>
       </div>
     <?php endif; ?>
   </nav>
