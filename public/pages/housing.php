@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-$isLoggedIn = isset($_SESSION['user_id']);
-
 require_once(__DIR__ . '/../../app/config/database.php');
 require_once(__DIR__ . '/../../app/includes/logout.php');
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_id']);
 
 // Retrieving accommodations from the database
 try {
