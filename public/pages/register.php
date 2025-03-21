@@ -1,5 +1,13 @@
 <?php
+session_start();
+
 require_once(__DIR__ . '/../../app/config/database.php');
+
+// Redirect if user is already logged in
+if (isset($_SESSION['user_id'])) {
+  header("Location: /");
+  exit;
+}
 
 // Message variables
 $error = null;
