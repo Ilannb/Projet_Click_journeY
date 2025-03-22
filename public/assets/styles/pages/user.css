@@ -48,28 +48,44 @@ main {
 
 .profile-image-container {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 9.4rem;
+  height: 9.4rem;
 }
 
 .profile-image {
-  width: 150px;
-  height: 150px;
+  width: 9.4rem;
+  height: 9.4rem;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--secondary-color);
 }
 
+.default-avatar {
+  width: 9.4rem;
+  height: 9.4rem;
+  border-radius: 50%;
+  border: 3px solid var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  background-color: #eee;
+}
+
 .edit-image-btn {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
   bottom: 0.5rem;
   right: 0.5rem;
   background-color: var(--secondary-color);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 2.2rem;
+  height: 2.2rem;
   cursor: pointer;
   transition: all 0.15s ease;
 }
@@ -180,13 +196,14 @@ main {
 
 .travel-header {
   display: grid;
-  grid-template-columns: 0.7fr 2fr 2fr 1fr 0.4fr;
+  grid-template-columns: 0.35fr 1.5fr 1fr 0.7fr 0.7fr 0.25fr;
   padding: 1rem;
   background-color: var(--primary-color);
   color: white;
   border-radius: var(--border-radius);
   font-weight: 500;
   align-items: center;
+  text-align: center;
 }
 
 .travel-header p:last-child {
@@ -195,11 +212,12 @@ main {
 
 .travel-row {
   display: grid;
-  grid-template-columns: 0.7fr 2fr 2fr 1fr 0.4fr;
+  grid-template-columns: 0.35fr 1.5fr 1fr 0.7fr 0.7fr 0.25fr;
   padding: 1rem;
   border: 1px solid #eee;
   border-radius: var(--border-radius);
   align-items: center;
+  text-align: center;
 }
 
 .travel-row:hover {
@@ -210,6 +228,7 @@ main {
   display: flex;
   align-items: center;
   gap: 1rem;
+  justify-content: center;
 }
 
 .dest-col img {
@@ -230,6 +249,8 @@ main {
   font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 .travel-status.completed {
@@ -240,4 +261,41 @@ main {
 .travel-status.upcoming {
   background-color: var(--blue-color);
   color: white;
+}
+
+.travel-status.cancelled {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.no-trips {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: #555;
+  font-style: italic;
+}
+
+.actions-col {
+  display: flex;
+  justify-content: center;
+}
+
+.view-trip-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: white;
+  background-color: var(--primary-color);
+  text-decoration: none;
+}
+
+.view-trip-btn:hover {
+  background-color: var(--accent-color);
 }
