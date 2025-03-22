@@ -79,7 +79,7 @@ table {
 
 th,
 td {
-  padding: 1rem;
+  padding: 0.5rem;
   border-bottom: 1px solid #eee;
   text-align: center;
 }
@@ -194,4 +194,29 @@ tbody tr:hover {
 .page-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Profile image styles */
+.profile-image {
+  text-align: center;
+}
+
+.user-avatar {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.default-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 1.2rem;
 }

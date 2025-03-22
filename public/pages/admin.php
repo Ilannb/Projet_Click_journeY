@@ -96,7 +96,7 @@ $total_users = $count_stmt->fetchColumn();
 $total_pages = ceil($total_users / $users_per_page);
 
 // Retrieve users with pagination and filters
-$query = "SELECT id, lastname, firstname, email, phone, DATE_FORMAT(created_at, '%d/%m/%Y') as formatted_date, role 
+$query = "SELECT id, lastname, firstname, email, phone, DATE_FORMAT(created_at, '%d/%m/%Y') as formatted_date, role, profile_image
           FROM users $where_clause 
           ORDER BY id ASC 
           LIMIT :offset, :limit";
@@ -188,6 +188,7 @@ $title = 'Pannel Admin';
           <thead>
             <tr>
               <th>ID</th>
+              <th>Photo</th>
               <th>Nom</th>
               <th>Prénom</th>
               <th>Email</th>
@@ -201,13 +202,20 @@ $title = 'Pannel Admin';
           <tbody>
             <?php if (empty($users)): ?>
               <tr>
-                <td colspan="8" class="no-results">Aucun utilisateur trouvé</td>
+                <td colspan="10" class="no-results">Aucun utilisateur trouvé</td>
               </tr>
             <?php else: ?>
               <?php foreach ($users as $user): ?>
                 <tr>
                   <td>
                     #<?php echo htmlspecialchars($user['id']); ?>
+                  </td>
+                  <td class="profile-image">
+                    <?php if (!empty($user['profile_image'])): ?>
+                      <div class="default-avatar"><img src="../<?php echo htmlspecialchars($user['profile_image']); ?>" alt="Photo de profil" class="user-avatar"></div>
+                    <?php else: ?>
+                      <div class="default-avatar"><i class="fa-solid fa-user"></i></div>
+                    <?php endif; ?>
                   </td>
                   <td>
                     <?php echo htmlspecialchars($user['lastname']); ?>
