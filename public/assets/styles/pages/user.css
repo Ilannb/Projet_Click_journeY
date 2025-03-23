@@ -264,7 +264,7 @@ main {
 }
 
 .travel-status.cancelled {
-  background-color: #ff6b6b;
+  background-color: var(--red-color);
   color: white;
 }
 
@@ -297,5 +297,22 @@ main {
 }
 
 .view-trip-btn:hover {
+  background-color: var(--accent-color);
+}
+
+.back-btn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
   background-color: var(--accent-color);
 }

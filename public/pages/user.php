@@ -13,8 +13,30 @@ if (!isset($_SESSION['user_id'])) {
   exit;
 }
 
-// Get user information
-$user_id = $_SESSION['user_id'];
+// Check if viewing another user's profile
+$viewing_other_user = false;
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+  // Check if current user is admin
+  $admin_check = $conn->prepare("SELECT role FROM users WHERE id = :id");
+  $admin_check->bindParam(':id', $_SESSION['user_id']);
+  $admin_check->execute();
+  $user_role = $admin_check->fetchColumn();
+
+  // If admin, allow viewing other user's profile
+  if ($user_role === 'admin') {
+    $user_id = $_GET['id'];
+    $viewing_other_user = true;
+  } else {
+    // Not admin, redirect to homepage
+    header("Location: /");
+    exit;
+  }
+} else {
+  // No ID in URL, use the session user ID
+  $user_id = $_SESSION['user_id'];
+}
+
+// Set variables for messages
 $error = null;
 $success = null;
 
@@ -29,6 +51,13 @@ try {
   $stmt = $conn->prepare("SELECT id, lastname, firstname, email, password, role, created_at, phone, profile_image FROM users WHERE id = :id");
   $stmt->bindParam(':id', $user_id);
   $stmt->execute();
+
+  if ($stmt->rowCount() === 0) {
+    // User not found
+    header("Location: /");
+    exit;
+  }
+
   $user = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   $error = "Error retrieving data: " . $e->getMessage();
@@ -36,6 +65,20 @@ try {
 
 // Form processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  // Vérifier si l'utilisateur actuel est autorisé à modifier ce profil
+  if ($viewing_other_user) {
+    // Vérifier à nouveau si l'utilisateur est admin
+    $admin_check = $conn->prepare("SELECT role FROM users WHERE id = :id");
+    $admin_check->bindParam(':id', $_SESSION['user_id']);
+    $admin_check->execute();
+    $user_role = $admin_check->fetchColumn();
+
+    if ($user_role !== 'admin') {
+      // Rediriger si pas admin
+      header("Location: /");
+      exit;
+    }
+  }
   // Update profile image
   if (isset($_POST['update_profile_image']) && isset($_FILES['profile_image'])) {
     $file = $_FILES['profile_image'];
@@ -180,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 // Title of the page
 $icon = '<i class="fa-solid fa-address-card"></i>';
-$title = 'Mon Profil';
+$title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -211,21 +254,30 @@ $title = 'Mon Profil';
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
-  <title>LakEvasion - Mon profil</title>
+  <title>LakEvasion - <?php echo htmlspecialchars($title); ?></title>
 </head>
 
 <body>
   <?php require('../components/header.php'); ?>
 
   <main>
+    <?php if ($viewing_other_user): ?>
+      <div class="admin-controls">
+        <a href="admin" class="back-btn"><i class="fas fa-arrow-left"></i> Retour au panel admin</a>
+      </div>
+    <?php endif; ?>
     <section class="personal-info-section">
       <div class="personal-info-header">
         <h2>Informations Personnelles</h2>
-        <?php if ($user['role'] === 'vip'): ?>
-          <div class="definition">
-            <p>* <span class="status vip">VIP</span> : Le status VIP donne des avantages et des réductions sur les prix</p>
-          </div>
-        <?php endif; ?>
+        <div class="user-status">
+          <?php if ($user['role'] === 'vip'): ?>
+            <span class="status vip">VIP</span>
+          <?php elseif ($user['role'] === 'admin'): ?>
+            <span class="status admin">ADMIN</span>
+          <?php elseif ($user['role'] === 'banned'): ?>
+            <span class="status banned">BANNED</span>
+          <?php endif; ?>
+        </div>
       </div>
 
       <?php if ($error): ?>
@@ -255,10 +307,6 @@ $title = 'Mon Profil';
             </label>
             <input type="file" id="profile-image-upload" name="profile_image" accept="image/jpeg,image/png,image/gif" style="display:none" onchange="this.form.submit()">
             <input type="hidden" name="update_profile_image" value="1">
-
-            <?php if ($user['role'] === 'vip'): ?>
-              <span class="status vip">VIP</span>
-            <?php endif; ?>
           </form>
         </div>
 
@@ -269,9 +317,11 @@ $title = 'Mon Profil';
             <p>Nom</p>
             <div class="editable-field" id="lastname-field">
               <p><?php echo htmlspecialchars($user['lastname']); ?></p>
-              <button class="edit-btn" onclick="toggleEditForm('lastname')">
-                <i class="fas fa-pen"></i>
-              </button>
+              <?php if (!$viewing_other_user || $_SESSION['user_role'] === 'admin'): ?>
+                <button class="edit-btn" onclick="toggleEditForm('lastname')">
+                  <i class="fas fa-pen"></i>
+                </button>
+              <?php endif; ?>
             </div>
             <form action="" method="post" class="edit-form" id="lastname-form" style="display: none;">
               <input type="text" name="lastname" value="<?php echo htmlspecialchars($user['lastname']); ?>" required>
