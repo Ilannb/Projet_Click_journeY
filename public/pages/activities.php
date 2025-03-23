@@ -71,7 +71,7 @@ $title = 'Activités';
               <div class="destination-description">
                 <p><?php echo htmlspecialchars($activity['description']); ?></p>
               </div>
-              <p class="price">À partir de <span class="euros bolded"><?php echo $activity['base_price']; ?>€</span> /jour</p>
+              <p class="price">À partir de <span class="euros bolded"><?php echo $activity['base_price']; ?>€</span> /personne</p>
             </div>
           </div>
         <?php endforeach; ?>
