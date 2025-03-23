@@ -13,7 +13,7 @@ try {
   $stmt->execute();
   $team = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  die("Erreur lors de la récupération des activités: " . $e->getMessage());
+  die("Erreur lors de la récupération des membres: " . $e->getMessage());
 }
 
 // Title of the page

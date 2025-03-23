@@ -13,7 +13,7 @@ try {
   $stmt->execute();
   $accommodations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  die("Erreur lors de la récupération des activités: " . $e->getMessage());
+  die("Erreur lors de la récupération des logements: " . $e->getMessage());
 }
 
 // Title of the page
