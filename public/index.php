@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-$isLoggedIn = isset($_SESSION['user_id']);
-
 require_once(__DIR__ . '/../app/includes/logout.php');
 require_once(__DIR__ . '/../app/includes/destinations.php');
+
+// Check if the user is logged in
+$isLoggedIn = isset($_SESSION['user_id']);
 
 // Retrieve 3 random destinations (or all if there are 3 or fewer)
 $destinations = getRandomDestinations(3);
@@ -56,19 +56,19 @@ $title = 'Offre unique : Hôtel <span class="underlined">gratuit</span> pour les
         <h1 class="hero-title">Explorez les plus <span class="underlined">beaux lacs</span> du <span
             class="underlined">monde</span></h1>
         <p class="hero-description">Des voyages inoubliables au bord des lacs les plus spectaculaires</p>
-        <div class="search-box">
+        <form action="pages/destinations.php" method="get" class="search-box">
           <div class="search-bar">
-            <input type="text" placeholder="Quel lac souhaitez-vous découvrir ?">
+            <input type="text" name="search" placeholder="Quel lac souhaitez-vous découvrir ?">
             <i class="fa-solid fa-location-dot"></i>
           </div>
           <a href="pages/destinations" class="filter-btn">
             <i class="fa-solid fa-sliders"></i>
           </a>
-          <button class="search-btn">
+          <button type="submit" class="search-btn">
             Explorer
             <i class="fas fa-search"></i>
           </button>
-        </div>
+        </form>
       </div>
     </section>
 
