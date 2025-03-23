@@ -96,3 +96,43 @@
 .details-btn:active {
   opacity: 0.9;
 }
+
+.title-rating-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.title-rating-container .title {
+  margin: 0;
+  flex: 1;
+}
+
+.rating-box {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.rating-box .fas.fa-star,
+.rating-box .fas.fa-star-half-alt {
+  color: var(--orange-color);
+  font-size: 0.9em;
+}
+
+.rating-box .far.fa-star {
+  color: #e4e5e9;
+  font-size: 0.9em;
+}
+
+.rating-box i {
+  margin-right: 2px;
+}
+
+.rating-value {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
