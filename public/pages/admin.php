@@ -236,7 +236,7 @@ $title = 'Pannel Admin';
                   <td>
                     <?php echo htmlspecialchars($user['formatted_date']); ?>
                   </td>
-                  <td><span class="role <?php echo htmlspecialchars(strtolower($user['role'])); ?>">
+                  <td><span class="status <?php echo htmlspecialchars(strtolower($user['role'])); ?>">
                       <?php
                       switch ($user['role']) {
                         case 'admin':

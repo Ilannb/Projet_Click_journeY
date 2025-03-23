@@ -143,8 +143,7 @@ tbody tr:hover {
 }
 
 .demote {
-  background-color: #ff9800;
-  /* Orange color for demote button */
+  background-color: var(--orange-color);
 }
 
 .history {
