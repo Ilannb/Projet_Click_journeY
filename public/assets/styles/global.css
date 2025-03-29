@@ -45,7 +45,7 @@ body {
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  padding: 10px 15px;
+  padding: 0.63rem 0.63rem;
   margin-bottom: 20px;
   border-radius: var(--border-radius);
   font-weight: 500;
@@ -53,14 +53,14 @@ body {
 
 .error-message {
   background-color: #ffe6e6;
-  color: #d9534f;
-  border-left: 4px solid #d9534f;
+  color: var(--red-color);
+  border-left: 4px solid var(--red-color);
 }
 
 .success-message {
   background-color: #e6ffe6;
   color: #5cb85c;
-  border-left: 4px solid #5cb85c;
+  border-left: 4px solid var(--green-color);
 }
 
 .success-message a,
