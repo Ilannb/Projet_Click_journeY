@@ -1,0 +1,72 @@
+.confirmation-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+.confirmation-box {
+  background: white;
+  padding: 40px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.confirmation-icon {
+  font-size: 60px;
+  color: var(--green-color);
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.confirmation-container p {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 25px;
+}
+
+.confirmation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s ease, opacity 0.1s ease;
+}
+
+.primary-button {
+  background: var(--secondary-color);
+  color: var(--light-text);
+}
+
+.primary-button:hover {
+  background: var(--accent-color);
+}
+
+.secondary-button {
+  background: var(--primary-color);
+  color: var(--light-text);
+}
+
+.secondary-button:hover {
+  background: var(--accent-color);
+}
