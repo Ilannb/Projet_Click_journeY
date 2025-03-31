@@ -46,7 +46,7 @@ main {
 
 /* Content container */
 .content-container {
-  max-width: 1300px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 2rem;
   display: grid;
@@ -98,37 +98,10 @@ main {
   text-align: center;
 }
 
-/* Program timeline */
-
-.program-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.timeline-item {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: var(--background-color);
-  border-radius: var(--border-radius);
-}
-
-.day-marker {
-  font-weight: 700;
-  color: var(--secondary-color);
-}
-
-.day-description h3 {
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-/* Info grid */
+/* Accommodation info section */
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
@@ -151,19 +124,84 @@ main {
   margin-bottom: 0.5rem;
 }
 
-.info .fa-pen {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+.accommodation-price {
+  font-weight: bold;
   color: var(--secondary-color);
+  margin: 0.5rem 0;
 }
 
-.info .fa-pen:active {
-  color: var(--accent-color);
+.modify-activity-btn {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 10px;
+  font-size: 14px;
+  transition: background-color 0.3s;
 }
 
-/* Booking card */
+.modify-activity-btn:hover {
+  background-color: var(--accent-color);
+}
+
+/* Date selection form */
+.date-selection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.date-selection-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.date-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.date-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.date-field input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.date-info {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.update-dates-button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+}
+
+.update-dates-button:hover {
+  background-color: var(--accent-color);
+}
+
+/* Booking summary card */
 .booking-card {
+  display: flex;
   background: white;
   padding: 1.5rem;
   border-radius: var(--border-radius);
@@ -171,6 +209,8 @@ main {
   position: sticky;
   top: 80px;
   height: fit-content;
+  flex-direction: column;
+  align-items: center;
 }
 
 .price-info {
@@ -178,11 +218,6 @@ main {
   flex-direction: column;
   align-items: center;
   margin-bottom: 1.5rem;
-}
-
-.price-from {
-  font-size: 0.9rem;
-  color: var(--text-color);
 }
 
 .price-value {
@@ -197,7 +232,8 @@ main {
 }
 
 .total-price {
-  margin-bottom: 0.5rem;
+  margin: 1rem 0;
+  font-size: 1.2rem;
 }
 
 .book-button {
@@ -207,11 +243,193 @@ main {
   background-color: var(--secondary-color);
   color: white;
   border-radius: var(--border-radius);
+  border: none;
   font-size: 1rem;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  cursor: pointer;
+  width: 100%;
 }
 
 .book-button:hover {
   background-color: var(--accent-color);
+}
+
+/* Activity price class used in multiple places */
+.activity-price {
+  font-weight: bold;
+  color: var(--orange-color);
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* Timeline Styles */
+.day-timeline {
+  margin: 2rem 0;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border: 2px solid var(--primary-color);
+  overflow: hidden;
+}
+
+.day-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.day-header h2 {
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.timeline-boxes {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.timeline-box {
+  flex: 0 0 18%;
+  min-width: 160px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.timeline-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.timeline-box-single {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.activity-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activity-icon .fas {
+  color: #4fa1ff;
+}
+
+.activity-icon .fa-coffee {
+  color: #8a5a20;
+}
+
+.activity-icon .fa-utensils {
+  color: #28a745;
+}
+
+.activity-icon .fa-question {
+  color: #6e6e6e;
+}
+
+.activity-icon .fa-plane-arrival,
+.activity-icon .fa-plane-departure {
+  color: var(--primary-color);
+}
+
+.activity-title {
+  margin: 0 0 0.3rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.activity-time {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+}
+
+.activity-description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.selection-status {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.selection-status.selected {
+  color: #4CAF50;
+}
+
+.status-icon {
+  font-size: 0.9rem;
+}
+
+.status-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 150px;
+  white-space: nowrap;
+}
+
+.activity-button {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  margin-top: auto;
+  transition: background-color 0.2s;
+}
+
+.activity-button:hover {
+  background-color: var(--accent-color);
+}
+
+.activity-button.edit {
+  background-color: #4CAF50;
+}
+
+.activity-button.edit:hover {
+  background-color: #388E3C;
+}
+
+.default-badge {
+  background-color: #28a745;
+  color: white;
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
 }
