@@ -83,7 +83,31 @@ $title = 'Offre unique : Hôtel <span class="underlined">gratuit</span> pour les
             <div class="destination-card">
               <img class="destination-image" src="<?php echo htmlspecialchars($destination['image_path']); ?>" alt="<?php echo htmlspecialchars($destination['title']); ?>">
               <div class="destination-content">
-                <h3 class="title"><?php echo htmlspecialchars($destination['title']); ?></h3>
+                <div class="title-rating-container">
+                  <h3 class="title"><?php echo htmlspecialchars($destination['title']); ?></h3>
+                  <div class="rating-box">
+                    <?php
+                    // Star rating display
+                    $rating = isset($destination['rating']) ? floatval($destination['rating']) : 0;
+                    $fullStars = floor($rating);
+                    $halfStar = ($rating - $fullStars) >= 0.5;
+                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+                    // Full stars
+                    for ($i = 0; $i < $fullStars; $i++) {
+                      echo '<i class="fas fa-star"></i>';
+                    }
+                    // Half star
+                    if ($halfStar) {
+                      echo '<i class="fas fa-star-half-alt"></i>';
+                    }
+                    // Empty stars
+                    for ($i = 0; $i < $emptyStars; $i++) {
+                      echo '<i class="far fa-star"></i>';
+                    }
+                    ?>
+                    <span class="rating-value"><?php echo number_format($rating, 1); ?></span>
+                  </div>
+                </div>
                 <div class="destination-description">
                   <div class="country-box">
                     <i class="fa-solid fa-globe"></i>
