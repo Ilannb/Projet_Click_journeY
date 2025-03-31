@@ -138,11 +138,28 @@ if (isset($_SESSION['selected_accommodation'][$destination_id])) {
   }
 }
 
+// Get transport details and calculate price
+$transportTotal = 0;
+$selectedTransport = null;
+if (isset($_SESSION['selected_transport'][$destination_id])) {
+  $transportId = $_SESSION['selected_transport'][$destination_id]['transport_id'];
+
+  // Get transport details
+  $transportQuery = "SELECT * FROM transports WHERE transport_id = ?";
+  $transportStmt = $conn->prepare($transportQuery);
+  $transportStmt->execute([$transportId]);
+  $selectedTransport = $transportStmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($selectedTransport) {
+    $transportTotal = $selectedTransport['base_price'];
+  }
+}
+
 // Prepare CYBank payment data
 $transaction_id = 'TX' . substr(md5(time() . rand(1000, 9999)), 0, 18);
 
 // Calculate total amount
-$original_amount = (float)$destination['price'] + $activitiesTotal + $mealsTotal + $accommodationTotal;
+$original_amount = (float)$destination['price'] + $activitiesTotal + $mealsTotal + $accommodationTotal + $transportTotal;
 $amount = $original_amount;
 
 // Store discount information
@@ -181,7 +198,8 @@ $_SESSION['payment_transaction'] = [
   'discount_percentage' => $discount_percentage,
   'activities_total' => $activitiesTotal,
   'meals_total' => $mealsTotal,
-  'accommodation_total' => $accommodationTotal
+  'accommodation_total' => $accommodationTotal,
+  'transport_total' => $transportTotal // Add transport total to session
 ];
 
 // Store dates in session for later use
@@ -272,6 +290,13 @@ $title = 'Paiement';
                   </div>
                 <?php endif; ?>
 
+                <?php if ($selectedTransport): ?>
+                  <div class="option-item">
+                    <i class="fa-solid fa-plane"></i>
+                    <p><?php echo htmlspecialchars($selectedTransport['title']); ?></p>
+                  </div>
+                <?php endif; ?>
+
                 <?php
                 // Display selected activities with count
                 foreach ($activityCounts as $activityId => $activity) {
@@ -304,7 +329,7 @@ $title = 'Paiement';
                 }
 
                 // If no activities or meals were selected, show a generic message
-                if (empty($activityCounts) && empty($mealCounts) && !$selectedAccommodation) {
+                if (empty($activityCounts) && empty($mealCounts) && !$selectedAccommodation && !$selectedTransport) {
                   echo '<div class="option-item">';
                   echo '<i class="fa-solid fa-circle-info"></i>';
                   echo '<p>Voyage de base sans options supplémentaires</p>';
@@ -386,6 +411,13 @@ $title = 'Paiement';
               <?php else: ?>
                 <p>Inclus</p>
               <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+          <?php if ($selectedTransport): ?>
+            <div class="price-item">
+              <p><?php echo htmlspecialchars($selectedTransport['title']); ?></p>
+              <p><?php echo $transportTotal; ?>€</p>
             </div>
           <?php endif; ?>
 

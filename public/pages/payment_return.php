@@ -95,11 +95,12 @@ if ($status === 'accepted') {
       $activities_total = isset($_SESSION['payment_transaction']['activities_total']) ? $_SESSION['payment_transaction']['activities_total'] : 0;
       $meals_total = isset($_SESSION['payment_transaction']['meals_total']) ? $_SESSION['payment_transaction']['meals_total'] : 0;
       $accommodation_total = isset($_SESSION['payment_transaction']['accommodation_total']) ? $_SESSION['payment_transaction']['accommodation_total'] : 0;
+      $transport_total = isset($_SESSION['payment_transaction']['transport_total']) ? $_SESSION['payment_transaction']['transport_total'] : 0;
       $discount_applied = isset($_SESSION['payment_transaction']['discount_applied']) ? $_SESSION['payment_transaction']['discount_applied'] : false;
       $discount_percentage = isset($_SESSION['payment_transaction']['discount_percentage']) ? $_SESSION['payment_transaction']['discount_percentage'] : 0;
 
       // Calculer le montant total avant réduction
-      $original_amount = $base_price + $activities_total + $meals_total + $accommodation_total;
+      $original_amount = $base_price + $activities_total + $meals_total + $accommodation_total + $transport_total;
 
       // Ajouter ces informations à la requête d'insertion
       if (in_array('base_price', $columns_data)) {
@@ -124,6 +125,12 @@ if ($status === 'accepted') {
         $columns .= ", accommodation_total";
         $values .= ", ?";
         $params[] = $accommodation_total;
+      }
+
+      if (in_array('transport_total', $columns_data)) {
+        $columns .= ", transport_total";
+        $values .= ", ?";
+        $params[] = $transport_total;
       }
 
       if (in_array('original_amount', $columns_data)) {
@@ -193,6 +200,14 @@ if ($status === 'accepted') {
         $params[] = $accommodation_details;
       }
 
+      // Store selected transport details
+      if (isset($_SESSION['selected_transport'][$destination_id]) && in_array('transport_details', $columns_data)) {
+        $transport_details = json_encode($_SESSION['selected_transport'][$destination_id]);
+        $columns .= ", transport_details";
+        $values .= ", ?";
+        $params[] = $transport_details;
+      }
+
       // Execute the insert query
       $query = "INSERT INTO reservations ($columns) VALUES ($values)";
       $stmt = $conn->prepare($query);
@@ -203,6 +218,7 @@ if ($status === 'accepted') {
         unset($_SESSION['selected_activities'][$destination_id]);
         unset($_SESSION['selected_meals'][$destination_id]);
         unset($_SESSION['selected_accommodation'][$destination_id]);
+        unset($_SESSION['selected_transport'][$destination_id]);
         unset($_SESSION['payment_transaction']);
 
         $_SESSION['payment_success'] = "Votre réservation a été confirmée. Merci pour votre confiance !";

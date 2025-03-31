@@ -117,9 +117,54 @@ if (isset($_SESSION['selected_accommodation'][$id])) {
   $_SESSION['selected_accommodation'][$id]['accommodation_id'] = $defaultAccommodationId;
 }
 
+// Get transport details and calculate the price
+$selectedTransport = null;
+$transportPrice = 0;
+$usingDefaultTransport = false;
+
+// Check for default transport
+$defaultTransportId = $destination['default_transport_id'];
+$defaultTransport = null;
+
+if ($defaultTransportId) {
+  $defaultTransportQuery = "SELECT * FROM transports WHERE transport_id = ?";
+  $defaultTransportStmt = $conn->prepare($defaultTransportQuery);
+  $defaultTransportStmt->execute([$defaultTransportId]);
+  $defaultTransport = $defaultTransportStmt->fetch(PDO::FETCH_ASSOC);
+}
+
+if (isset($_SESSION['selected_transport'][$id])) {
+  $transportId = $_SESSION['selected_transport'][$id]['transport_id'];
+
+  // If selected is the default, no extra cost
+  if ($transportId == $defaultTransportId) {
+    $usingDefaultTransport = true;
+    $selectedTransport = $defaultTransport;
+    $transportPrice = 0;
+  } else {
+    // Get selected transport
+    $transportQuery = "SELECT * FROM transports WHERE transport_id = ?";
+    $transportStmt = $conn->prepare($transportQuery);
+    $transportStmt->execute([$transportId]);
+    $selectedTransport = $transportStmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($selectedTransport) {
+      $transportPrice = $selectedTransport['base_price'];
+    }
+  }
+} else if ($defaultTransport) {
+  // Use default transport if none selected
+  $usingDefaultTransport = true;
+  $selectedTransport = $defaultTransport;
+  $transportPrice = 0;
+
+  // Store the default transport
+  $_SESSION['selected_transport'][$id]['transport_id'] = $defaultTransportId;
+}
+
 // Calculate prices
 $pricePerDay = round($destination['price'] / $destination['duration']);
-$totalPrice = $destination['price'] + $totalActivityPrice + $totalMealPrice + $accommodationTotalPrice;
+$totalPrice = $destination['price'] + $totalActivityPrice + $totalMealPrice + $accommodationTotalPrice + $transportPrice;
 
 // Handle date selection
 $defaultStartDate = date('Y-m-d', strtotime('+7 days'));
@@ -646,6 +691,33 @@ $title = $destination['title'];
                 </a>
               <?php endif; ?>
             </div>
+            <div class="info">
+              <i class="fas fa-plane"></i>
+              <h3>Transport</h3>
+              <?php if ($selectedTransport): ?>
+                <p>
+                  <?php echo htmlspecialchars($selectedTransport['title']); ?>
+                  <?php if ($usingDefaultTransport): ?>
+                    <span class="default-badge">Inclus</span>
+                  <?php endif; ?>
+                </p>
+
+                <?php if (!$usingDefaultTransport): ?>
+                  <p class="accommodation-price">Supplément: <?php echo $transportPrice; ?>€</p>
+                <?php else: ?>
+                  <p class="accommodation-price">Inclus dans le prix de base</p>
+                <?php endif; ?>
+
+                <a href="selection-transport?id=<?php echo $id; ?>" class="modify-activity-btn">
+                  <i class="fas fa-edit"></i> Modifier le transport
+                </a>
+              <?php else: ?>
+                <p>Aucun transport sélectionné</p>
+                <a href="selection-transport?id=<?php echo $id; ?>" class="modify-activity-btn">
+                  <i class="fas fa-plus"></i> Choisir un transport
+                </a>
+              <?php endif; ?>
+            </div>
           </div>
         </section>
       </div>
@@ -659,7 +731,7 @@ $title = $destination['title'];
 
         <?php if ($accommodationTotalPrice > 0): ?>
           <div>
-            <span>Logement (supplément) : <strong class="activity-price">+<?php echo htmlspecialchars($accommodationTotalPrice); ?>€</strong></span>
+            <span>Logement : <strong class="activity-price">+<?php echo htmlspecialchars($accommodationTotalPrice); ?>€</strong></span>
           </div>
         <?php endif; ?>
 
@@ -672,6 +744,12 @@ $title = $destination['title'];
         <?php if ($totalMealPrice > 0): ?>
           <div>
             <span>Restauration : <strong class="activity-price">+<?php echo htmlspecialchars($totalMealPrice); ?>€</strong></span>
+          </div>
+        <?php endif; ?>
+
+        <?php if ($transportPrice > 0): ?>
+          <div>
+            <span>Transport : <strong class="activity-price">+<?php echo htmlspecialchars($transportPrice); ?>€</strong></span>
           </div>
         <?php endif; ?>
 
