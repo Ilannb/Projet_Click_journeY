@@ -90,6 +90,60 @@ if ($status === 'accepted') {
         $params[] = $end_date;
       }
 
+      // Retrieve detailed amounts from the session
+      $base_price = $destination_data['price'] ?? 0;
+      $activities_total = isset($_SESSION['payment_transaction']['activities_total']) ? $_SESSION['payment_transaction']['activities_total'] : 0;
+      $meals_total = isset($_SESSION['payment_transaction']['meals_total']) ? $_SESSION['payment_transaction']['meals_total'] : 0;
+      $accommodation_total = isset($_SESSION['payment_transaction']['accommodation_total']) ? $_SESSION['payment_transaction']['accommodation_total'] : 0;
+      $discount_applied = isset($_SESSION['payment_transaction']['discount_applied']) ? $_SESSION['payment_transaction']['discount_applied'] : false;
+      $discount_percentage = isset($_SESSION['payment_transaction']['discount_percentage']) ? $_SESSION['payment_transaction']['discount_percentage'] : 0;
+
+      // Calculer le montant total avant réduction
+      $original_amount = $base_price + $activities_total + $meals_total + $accommodation_total;
+
+      // Ajouter ces informations à la requête d'insertion
+      if (in_array('base_price', $columns_data)) {
+        $columns .= ", base_price";
+        $values .= ", ?";
+        $params[] = $base_price;
+      }
+
+      if (in_array('activities_total', $columns_data)) {
+        $columns .= ", activities_total";
+        $values .= ", ?";
+        $params[] = $activities_total;
+      }
+
+      if (in_array('meals_total', $columns_data)) {
+        $columns .= ", meals_total";
+        $values .= ", ?";
+        $params[] = $meals_total;
+      }
+
+      if (in_array('accommodation_total', $columns_data)) {
+        $columns .= ", accommodation_total";
+        $values .= ", ?";
+        $params[] = $accommodation_total;
+      }
+
+      if (in_array('original_amount', $columns_data)) {
+        $columns .= ", original_amount";
+        $values .= ", ?";
+        $params[] = $original_amount;
+      }
+
+      if (in_array('discount_applied', $columns_data)) {
+        $columns .= ", discount_applied";
+        $values .= ", ?";
+        $params[] = $discount_applied ? 1 : 0;
+      }
+
+      if (in_array('discount_percentage', $columns_data)) {
+        $columns .= ", discount_percentage";
+        $values .= ", ?";
+        $params[] = $discount_percentage;
+      }
+
       // Handles different column naming conventions between tables
       $field_mappings = [
         'title' => ['title', 'name', 'destination_name'],
@@ -115,12 +169,42 @@ if ($status === 'accepted') {
         }
       }
 
+      // Store selected activities details
+      if (isset($_SESSION['selected_activities'][$destination_id]) && in_array('activities_details', $columns_data)) {
+        $activities_details = json_encode($_SESSION['selected_activities'][$destination_id]);
+        $columns .= ", activities_details";
+        $values .= ", ?";
+        $params[] = $activities_details;
+      }
+
+      // Store selected meals details
+      if (isset($_SESSION['selected_meals'][$destination_id]) && in_array('meals_details', $columns_data)) {
+        $meals_details = json_encode($_SESSION['selected_meals'][$destination_id]);
+        $columns .= ", meals_details";
+        $values .= ", ?";
+        $params[] = $meals_details;
+      }
+
+      // Store selected accommodation details
+      if (isset($_SESSION['selected_accommodation'][$destination_id]) && in_array('accommodation_details', $columns_data)) {
+        $accommodation_details = json_encode($_SESSION['selected_accommodation'][$destination_id]);
+        $columns .= ", accommodation_details";
+        $values .= ", ?";
+        $params[] = $accommodation_details;
+      }
+
       // Execute the insert query
       $query = "INSERT INTO reservations ($columns) VALUES ($values)";
       $stmt = $conn->prepare($query);
       $success = $stmt->execute($params);
 
       if ($success) {
+        // Clean up session data
+        unset($_SESSION['selected_activities'][$destination_id]);
+        unset($_SESSION['selected_meals'][$destination_id]);
+        unset($_SESSION['selected_accommodation'][$destination_id]);
+        unset($_SESSION['payment_transaction']);
+
         $_SESSION['payment_success'] = "Votre réservation a été confirmée. Merci pour votre confiance !";
       } else {
         $_SESSION['payment_error'] = "Erreur lors de l'enregistrement de la réservation. Veuillez contacter le support.";

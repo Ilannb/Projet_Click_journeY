@@ -21,7 +21,7 @@ $user_role = $role_stmt->fetchColumn();
 
 // Redirect banned users
 if ($user_role === 'banned') {
-  header('Location: /'); // Change : show error message
+  header('Location: error'); // Change : show error message
   exit;
 }
 
@@ -53,11 +53,96 @@ if (!$destination) {
 $payment_error = isset($_SESSION['payment_error']) ? $_SESSION['payment_error'] : null;
 unset($_SESSION['payment_error']);
 
+// Get selected activities, meals and accommodation from session
+$selectedActivities = isset($_SESSION['selected_activities'][$destination_id]) ? $_SESSION['selected_activities'][$destination_id] : [];
+$selectedMeals = isset($_SESSION['selected_meals'][$destination_id]) ? $_SESSION['selected_meals'][$destination_id] : [];
+
+// Calculate activities total and count duplicates
+$activitiesTotal = 0;
+$activityCounts = [];
+foreach ($selectedActivities as $day => $dayActivities) {
+  foreach ($dayActivities as $period => $activity) {
+    if (isset($activity['activity_id']) && $activity['activity_id'] != 'none') {
+      $activityQuery = "SELECT title, base_price FROM activities WHERE activity_id = ?";
+      $activityStmt = $conn->prepare($activityQuery);
+      $activityStmt->execute([$activity['activity_id']]);
+      $activityDetails = $activityStmt->fetch(PDO::FETCH_ASSOC);
+
+      if ($activityDetails) {
+        $activitiesTotal += $activityDetails['base_price'];
+
+        // Count occurrences of each activity
+        if (!isset($activityCounts[$activity['activity_id']])) {
+          $activityCounts[$activity['activity_id']] = [
+            'count' => 1,
+            'title' => $activityDetails['title'],
+            'price' => $activityDetails['base_price']
+          ];
+        } else {
+          $activityCounts[$activity['activity_id']]['count']++;
+        }
+      }
+    }
+  }
+}
+
+// Calculate meals total and count duplicates
+$mealsTotal = 0;
+$mealCounts = [];
+foreach ($selectedMeals as $day => $dayMeals) {
+  foreach ($dayMeals as $period => $meal) {
+    if (isset($meal['restaurant_id']) && $meal['restaurant_id'] != 'none') {
+      $mealQuery = "SELECT title, base_price FROM catering WHERE restaurant_id = ?";
+      $mealStmt = $conn->prepare($mealQuery);
+      $mealStmt->execute([$meal['restaurant_id']]);
+      $mealDetails = $mealStmt->fetch(PDO::FETCH_ASSOC);
+
+      if ($mealDetails) {
+        $mealsTotal += $mealDetails['base_price'];
+
+        // Count occurrences of each meal
+        if (!isset($mealCounts[$meal['restaurant_id']])) {
+          $mealCounts[$meal['restaurant_id']] = [
+            'count' => 1,
+            'title' => $mealDetails['title'],
+            'price' => $mealDetails['base_price']
+          ];
+        } else {
+          $mealCounts[$meal['restaurant_id']]['count']++;
+        }
+      }
+    }
+  }
+}
+
+// Calculate accommodation total
+$accommodationTotal = 0;
+$selectedAccommodation = null;
+if (isset($_SESSION['selected_accommodation'][$destination_id])) {
+  $accommodationId = $_SESSION['selected_accommodation'][$destination_id]['accommodation_id'];
+
+  // Get accommodation details
+  $accommodationQuery = "SELECT * FROM accommodations WHERE accommodation_id = ?";
+  $accommodationStmt = $conn->prepare($accommodationQuery);
+  $accommodationStmt->execute([$accommodationId]);
+  $selectedAccommodation = $accommodationStmt->fetch(PDO::FETCH_ASSOC);
+
+  // If it's not the default accommodation
+  if ($selectedAccommodation && $accommodationId != $destination['default_accommodation_id']) {
+    $accommodationPrice = $selectedAccommodation['base_price'];
+
+    if ($accommodationPrice) {
+      // Multiply by number of nights
+      $accommodationTotal = $accommodationPrice * ($destination['duration'] - 1);
+    }
+  }
+}
+
 // Prepare CYBank payment data
 $transaction_id = 'TX' . substr(md5(time() . rand(1000, 9999)), 0, 18);
 
-// Apply VIP discount if applicable
-$original_amount = (float)$destination['price'];
+// Calculate total amount
+$original_amount = (float)$destination['price'] + $activitiesTotal + $mealsTotal + $accommodationTotal;
 $amount = $original_amount;
 
 // Store discount information
@@ -65,6 +150,7 @@ $discount_applied = false;
 $discount_percentage = 0;
 $discount_amount = 0;
 
+// Apply VIP discount if applicable
 if ($user_role === 'vip') {
   $discount_percentage = 20;
   $discount_amount = $original_amount * ($discount_percentage / 100);
@@ -92,7 +178,10 @@ $_SESSION['payment_transaction'] = [
   'destination_id' => $destination_id,
   'user_role' => $user_role,
   'discount_applied' => $discount_applied,
-  'discount_percentage' => $discount_percentage
+  'discount_percentage' => $discount_percentage,
+  'activities_total' => $activitiesTotal,
+  'meals_total' => $mealsTotal,
+  'accommodation_total' => $accommodationTotal
 ];
 
 // Store dates in session for later use
@@ -147,53 +236,84 @@ $title = 'Paiement';
           </div>
           <h2>Résumé du voyage</h2>
           <div class="trip-details">
-            <img src="../assets/src/img/annecy.jpg" alt="Lac d'Annecy">
-            <div class="trip-info">
-              <h3>Lac d'Annecy</h3>
-              <div class="info-item country-box">
-                <i class="fa-solid fa-globe"></i>
-                <p class="country">France</p>
-              </div>
-              <div class="info-item duration-box">
-                <i class="fa-solid fa-hourglass-half"></i>
-                <p class="duration"><span class="trip-duration">3</span> days</p>
-              </div>
-              <div class="info-item activity-box">
-                <i class="fa-solid fa-sailboat"></i>
-                <p class="activity">Navigation</p>
-              </div>
-            </div>
-            <div class="options-container">
-              <h3>Selected Options</h3>
-              <div class="options-grid">
+            <div class="trip-main-info">
+              <img src="<?php echo htmlspecialchars($destination['image_path']); ?>" alt="<?php echo htmlspecialchars($destination['title']); ?>">
+              <div class="trip-info">
+                <h3><?php echo htmlspecialchars($destination['title']); ?></h3>
+                <div class="info-item country-box">
+                  <i class="fa-solid fa-globe"></i>
+                  <p class="country"><?php echo htmlspecialchars($destination['country']); ?></p>
+                </div>
+                <div class="info-item duration-box">
+                  <i class="fa-solid fa-hourglass-half"></i>
+                  <p class="duration"><span class="trip-duration"><?php echo htmlspecialchars($destination['duration']); ?></span> jours</p>
+                </div>
+                <div class="info-item activity-box">
+                  <i class="fa-solid <?php echo htmlspecialchars($destination['activity_icon']); ?>"></i>
+                  <p class="activity"><?php echo htmlspecialchars($destination['activity']); ?></p>
+                </div>
+
                 <?php if ($start_date && $end_date): ?>
-                  <div class="option-item">
+                  <div class="info-item date-box">
                     <i class="fa-solid fa-calendar-days"></i>
                     <p>Du <?php echo date('d/m/Y', strtotime($start_date)); ?> au <?php echo date('d/m/Y', strtotime($end_date)); ?></p>
                   </div>
                 <?php endif; ?>
-                <div class="option-item">
-                  <i class="fa-solid fa-utensils"></i>
-                  <p>Full Board</p>
-                </div>
-                <div class="option-item">
-                  <i class="fa-solid fa-house"></i>
-                  <p>Luxury Villa</p>
-                </div>
-                <div class="option-item">
-                  <i class="fa-solid fa-fish"></i>
-                  <p>Fishing and Relaxation</p>
-                </div>
-                <div class="option-item">
-                  <i class="fa-solid fa-ship"></i>
-                  <p>Boat Excursions</p>
-                </div>
-                <div class="option-item">
-                  <i class="fa-solid fa-person-swimming"></i>
-                  <p>Water Sports</p>
-                </div>
               </div>
             </div>
+
+            <div class="options-container">
+              <h3>Options sélectionnées</h3>
+              <div class="options-grid">
+                <?php if ($selectedAccommodation): ?>
+                  <div class="option-item">
+                    <i class="fa-solid fa-house"></i>
+                    <p><?php echo htmlspecialchars($selectedAccommodation['title']); ?></p>
+                  </div>
+                <?php endif; ?>
+
+                <?php
+                // Display selected activities with count
+                foreach ($activityCounts as $activityId => $activity) {
+                  $activityQuery = "SELECT activity_icon FROM activities WHERE activity_id = ?";
+                  $activityStmt = $conn->prepare($activityQuery);
+                  $activityStmt->execute([$activityId]);
+                  $activityIcon = $activityStmt->fetchColumn();
+
+                  $icon = !empty($activityIcon) ? $activityIcon : 'fa-person-hiking';
+                  echo '<div class="option-item">';
+                  echo '<i class="fa-solid ' . htmlspecialchars($icon) . '"></i>';
+                  echo '<p>' . htmlspecialchars($activity['title']);
+                  if ($activity['count'] > 1) {
+                    echo ' <span class="option-count">' . $activity['count'] . '</span>';
+                  }
+                  echo '</p>';
+                  echo '</div>';
+                }
+
+                // Display selected meals/restaurants with count
+                foreach ($mealCounts as $mealId => $meal) {
+                  echo '<div class="option-item">';
+                  echo '<i class="fa-solid fa-utensils"></i>';
+                  echo '<p>' . htmlspecialchars($meal['title']);
+                  if ($meal['count'] > 1) {
+                    echo ' <span class="option-count">' . $meal['count'] . '</span>';
+                  }
+                  echo '</p>';
+                  echo '</div>';
+                }
+
+                // If no activities or meals were selected, show a generic message
+                if (empty($activityCounts) && empty($mealCounts) && !$selectedAccommodation) {
+                  echo '<div class="option-item">';
+                  echo '<i class="fa-solid fa-circle-info"></i>';
+                  echo '<p>Voyage de base sans options supplémentaires</p>';
+                  echo '</div>';
+                }
+                ?>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="payment-form">
@@ -245,36 +365,59 @@ $title = 'Paiement';
         <h2>Détails du prix</h2>
         <div class="price-breakdown">
           <div class="price-item">
-            <p>Number of days</p>
-            <p>5</p>
+            <p>Nombre de jours</p>
+            <p><?php echo $destination['duration']; ?></p>
           </div>
+
+          <?php
+          // Calculate price per day
+          $pricePerDay = round($destination['price'] / $destination['duration']);
+          ?>
           <div class="price-item">
-            <p>Price per day</p>
-            <p>248€</p>
+            <p>Prix de base par jour</p>
+            <p><?php echo $pricePerDay; ?>€</p>
           </div>
-          <div class="price-item">
-            <p>Fishing and Relaxation Activity</p>
-            <p>35€</p>
-          </div>
-          <div class="price-item">
-            <p>Boat Excursions Activity</p>
-            <p>50€</p>
-          </div>
-          <div class="price-item">
-            <p>Water Sports</p>
-            <p>30€</p>
-          </div>
-          <div class="price-item">
-            <p>Gourmet Restaurant</p>
-            <p>5 days x 35€</p>
-          </div>
-          <div class="price-item">
-            <p>Luxury Villa</p>
-            <p>5 days x 190€</p>
-          </div>
+
+          <?php if ($selectedAccommodation): ?>
+            <div class="price-item">
+              <p><?php echo htmlspecialchars($selectedAccommodation['title']); ?></p>
+              <?php if ($accommodationTotal > 0): ?>
+                <p><?php echo ($destination['duration'] - 1); ?> nuits x <?php echo $selectedAccommodation['base_price']; ?>€</p>
+              <?php else: ?>
+                <p>Inclus</p>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+          <?php
+          // Display activities with prices and count
+          foreach ($activityCounts as $activityId => $activity) {
+            echo '<div class="price-item">';
+            echo '<p>' . htmlspecialchars($activity['title']);
+            if ($activity['count'] > 1) {
+              echo ' x' . $activity['count'];
+            }
+            echo '</p>';
+            echo '<p>' . ($activity['price'] * $activity['count']) . '€</p>';
+            echo '</div>';
+          }
+
+          // Display meals with prices and count
+          foreach ($mealCounts as $mealId => $meal) {
+            echo '<div class="price-item">';
+            echo '<p>' . htmlspecialchars($meal['title']);
+            if ($meal['count'] > 1) {
+              echo ' x' . $meal['count'];
+            }
+            echo '</p>';
+            echo '<p>' . ($meal['price'] * $meal['count']) . '€</p>';
+            echo '</div>';
+          }
+          ?>
+
           <?php if ($discount_applied): ?>
             <div class="price-item discount">
-              <p>VIP Discount (<?php echo $discount_percentage; ?>%)</p>
+              <p>Réduction VIP (<?php echo $discount_percentage; ?>%)</p>
               <p>-<?php echo number_format($discount_amount, 2); ?>€</p>
             </div>
           <?php endif; ?>
