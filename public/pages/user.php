@@ -65,20 +65,21 @@ try {
 
 // Form processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // Vérifier si l'utilisateur actuel est autorisé à modifier ce profil
+  // Check if current user is authorized to modify this profile
   if ($viewing_other_user) {
-    // Vérifier à nouveau si l'utilisateur est admin
+    // Verify again if the user is admin
     $admin_check = $conn->prepare("SELECT role FROM users WHERE id = :id");
     $admin_check->bindParam(':id', $_SESSION['user_id']);
     $admin_check->execute();
     $user_role = $admin_check->fetchColumn();
 
     if ($user_role !== 'admin') {
-      // Rediriger si pas admin
+      // Redirect if not admin
       header("Location: /");
       exit;
     }
   }
+  
   // Update profile image
   if (isset($_POST['update_profile_image']) && isset($_FILES['profile_image'])) {
     $file = $_FILES['profile_image'];
@@ -473,7 +474,7 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
 
         <?php
         // Fetch user trips
-        $order_by = "start_date DESC";
+        $order_by = "created_at DESC";
 
         if (isset($_GET['sort'])) {
           switch ($_GET['sort']) {
@@ -496,14 +497,14 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
         }
 
         try {
-          $trips_stmt = $conn->prepare("SELECT * FROM trips WHERE user_id = :user_id ORDER BY " . $order_by);
+          // Query reservations
+          $trips_stmt = $conn->prepare("SELECT * FROM reservations WHERE user_id = :user_id ORDER BY " . $order_by);
           $trips_stmt->bindParam(':user_id', $user_id);
           $trips_stmt->execute();
           $trips = $trips_stmt->fetchAll(PDO::FETCH_ASSOC);
 
           if (count($trips) > 0) {
             foreach ($trips as $trip) {
-              // Format date range
               $start_date = new DateTime($trip['start_date']);
               $end_date = new DateTime($trip['end_date']);
               $date_range = $start_date->format('d') . '-' . $end_date->format('d') . ' ' . $end_date->format('F Y');
@@ -528,21 +529,22 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
                 $date_range = str_replace($en, $fr, $date_range);
               }
 
-              // Translate status
               $status_text = '';
               $status_class = '';
               switch ($trip['status']) {
-                case 'upcoming':
-                  $status_text = 'À venir';
-                  $status_class = 'upcoming';
-                  break;
-                case 'completed':
-                  $status_text = 'Terminé';
-                  $status_class = 'completed';
-                  break;
                 case 'cancelled':
                   $status_text = 'Annulé';
                   $status_class = 'cancelled';
+                  break;
+                case 'confirmed':
+                  $today = new DateTime();
+                  if ($end_date < $today) {
+                    $status_text = 'Terminé';
+                    $status_class = 'completed';
+                  } else {
+                    $status_text = 'À venir';
+                    $status_class = 'upcoming';
+                  }
                   break;
               }
         ?>
@@ -550,11 +552,16 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
               <div class="travel-row">
                 <p class="ref-col">#<?php echo htmlspecialchars($trip['id']); ?></p>
                 <div class="dest-col">
-                  <img src="../<?php echo htmlspecialchars($trip['destination_image']); ?>" alt="<?php echo htmlspecialchars($trip['destination']); ?>">
-                  <p><?php echo htmlspecialchars($trip['destination']); ?></p>
+                  <img src="<?php echo htmlspecialchars($trip['destination_image']); ?>" alt="<?php echo htmlspecialchars($trip['title']); ?>">
+                  <p><?php echo htmlspecialchars($trip['title']); ?></p>
                 </div>
                 <p class="date-col"><?php echo $date_range; ?></p>
-                <p class="price-col"><?php echo number_format($trip['price'], 0, ',', ' '); ?>€</p>
+                <p class="price-col">
+                  <?php
+                  $displayed_price = isset($trip['amount']) ? $trip['amount'] : $trip['price'];
+                  echo number_format($displayed_price, 2, ',', ' ') . '€';
+                  ?>
+                </p>
                 <p class="travel-status <?php echo $status_class; ?>"><?php echo $status_text; ?></p>
                 <div class="actions-col">
                   <a href="trip?id=<?php echo $trip['destination_id']; ?>" class="view-trip-btn" title="Voir">
