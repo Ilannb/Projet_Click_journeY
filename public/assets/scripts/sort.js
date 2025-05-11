@@ -17,11 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
           const priceDescB = getPriceValue(b);
           return priceDescB - priceDescA;
 
-        case 'duration':
-          const durationA = parseInt(a.querySelector('.trip-duration')?.textContent || '0');
-          const durationB = parseInt(b.querySelector('.trip-duration')?.textContent || '0');
-          return durationA - durationB;
-
         case 'popular':
         default:
           const ratingA = parseFloat(a.querySelector('.rating-value').textContent);
