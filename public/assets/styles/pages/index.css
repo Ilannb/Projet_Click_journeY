@@ -108,7 +108,7 @@
 }
 
 .destinations-box h2 {
-  color: var(--primary-color);
+  color: var(--contrast-text);
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -116,15 +116,16 @@
 
 /* Why Us Section */
 .why-us {
-  background-color: white;
+  background-color: var(--front-color);
   padding: 4rem 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition : background-color 1s ease, color 1s ease;
 }
 
 .why-us h2 {
   text-align: center;
   margin-bottom: 2rem;
-  color: var(--primary-color);
+  color: var(--contrast-color);
 }
 
 .features {

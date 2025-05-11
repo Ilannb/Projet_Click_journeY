@@ -14,7 +14,7 @@ main {
 /* Sidebar filters */
 .filters-sidebar {
   width: 350px;
-  background: white;
+  background: var(--front-color);
   border-radius: var(--border-radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   height: fit-content;
@@ -25,7 +25,7 @@ main {
 }
 
 .filters-sidebar h2 {
-  color: var(--primary-color);
+  color: var(--contrast-text);
   font-size: 1.5rem;
   margin-top: 1.5rem;
   text-align: center;
@@ -146,7 +146,7 @@ main {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background-color: white;
+  background-color: var(--front-color);
   border-radius: var(--border-radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -162,6 +162,7 @@ main {
 }
 
 .sort-box select {
+  background-color: var(--front-front-color);
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: var(--border-radius);

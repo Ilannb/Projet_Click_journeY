@@ -9,10 +9,11 @@ main {
 /* Personal info section */
 .personal-info-section,
 .travel-history-section {
-  background-color: white;
+  background-color: var(--front-color);
   border-radius: var(--border-radius);
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .personal-info-header {
@@ -38,7 +39,7 @@ main {
 }
 
 .personal-info-header h2 {
-  color: var(--primary-color);
+  color: var(--contrast-text);
 }
 
 .info-container {
@@ -125,7 +126,7 @@ main {
 }
 
 .editable-field p {
-  color: var(--primary-color);
+  color: var(--contrast-text);
   font-weight: 500;
 }
 
@@ -147,7 +148,7 @@ main {
 }
 
 .history-section-header h2 {
-  color: var(--primary-color);
+  color: var(--contrast-text);
 }
 
 .section-header {
@@ -204,6 +205,7 @@ main {
   font-weight: 500;
   align-items: center;
   text-align: center;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .travel-header p:last-child {
@@ -276,6 +278,84 @@ main {
   font-style: italic;
 }
 
+.submit-all-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.submit-all-btn:hover {
+  background-color: #45a049;
+}
+
+.edit-form input {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.edit-form input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 3px rgba(76, 175, 80, 0.3);
+}
+
+.edit-form .form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #45a049;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #da190b;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s;
+}
+
+.edit-btn:hover {
+  color: #4CAF50;
+}
+
 .actions-col {
   display: flex;
   justify-content: center;
@@ -315,4 +395,73 @@ main {
 
 .back-btn:hover {
   background-color: var(--accent-color);
+}
+
+/* Password */
+.password-input-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.password-input-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.password-toggle:hover {
+  color: var(--primary-color);
+}
+
+#password-form {
+  width: 100%;
+}
+
+/* Password requirements section */
+.password-requirements {
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  margin: 10px 0;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-left: 3px solid var(--secondary-color);
+}
+
+.password-requirements p {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.password-requirements ul {
+  list-style: none;
+}
+
+.password-requirements li {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.password-requirements li i {
+  width: 13px;
+  text-align: center;
+}
+
+.password-requirements .fa-check {
+  color: #28a745;
 }

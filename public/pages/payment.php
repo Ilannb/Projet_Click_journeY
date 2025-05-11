@@ -150,7 +150,8 @@ if (isset($_SESSION['selected_transport'][$destination_id])) {
   $transportStmt->execute([$transportId]);
   $selectedTransport = $transportStmt->fetch(PDO::FETCH_ASSOC);
 
-  if ($selectedTransport) {
+  // If it's not the default transport
+  if ($selectedTransport && $transportId != $destination['default_transport_id']) {
     $transportTotal = $selectedTransport['base_price'];
   }
 }
@@ -216,6 +217,7 @@ $title = 'Paiement';
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -236,6 +238,7 @@ $title = 'Paiement';
   <link rel="stylesheet" href="../assets/styles/components/header.css">
   <link rel="stylesheet" href="../assets/styles/components/footer.css">
   <link rel="stylesheet" href="../assets/styles/pages/payment.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -417,7 +420,11 @@ $title = 'Paiement';
           <?php if ($selectedTransport): ?>
             <div class="price-item">
               <p><?php echo htmlspecialchars($selectedTransport['title']); ?></p>
-              <p><?php echo $transportTotal; ?>€</p>
+              <?php if ($transportTotal > 0): ?>
+                <p><?php echo $transportTotal; ?>€</p>
+              <?php else: ?>
+                <p>Inclus</p>
+              <?php endif; ?>
             </div>
           <?php endif; ?>
 

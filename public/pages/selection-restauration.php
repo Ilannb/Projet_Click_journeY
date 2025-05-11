@@ -63,22 +63,6 @@ if (!empty($whereConditions)) {
   $query .= " WHERE " . implode(" AND ", $whereConditions);
 }
 
-// Apply sorting
-if (isset($_GET['sort'])) {
-  switch ($_GET['sort']) {
-    case 'price-asc':
-      $query .= " ORDER BY base_price ASC";
-      break;
-    case 'price-desc':
-      $query .= " ORDER BY base_price DESC";
-      break;
-    case 'popular':
-    default:
-      $query .= " ORDER BY rating DESC";
-  }
-} else {
-  $query .= " ORDER BY rating DESC";
-}
 
 // Preparation and execution of the query
 try {
@@ -122,6 +106,7 @@ if ($period == 'breakfast') {
 <html lang="en">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -146,6 +131,7 @@ if ($period == 'breakfast') {
   <link rel="stylesheet" href="../assets/styles/components/search-input.css">
   <link rel="stylesheet" href="../assets/styles/pages/destinations.css">
   <link rel="stylesheet" href="../assets/styles/pages/selection-hebergement.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -251,10 +237,10 @@ if ($period == 'breakfast') {
             <?php endif; ?>
             <div class="sort-box">
               <label for="sort">Sort by:</label>
-              <select id="sort" name="sort" onchange="this.form.submit()">
-                <option value="popular" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'popular') ? 'selected' : ''; ?>>Popularity</option>
-                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price-asc') ? 'selected' : ''; ?>>Price (ascending)</option>
-                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price-desc') ? 'selected' : ''; ?>>Price (descending)</option>
+              <select id="sort" name="sort">
+                <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularity</option>
+                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Price (ascending)</option>
+                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Price (descending)</option>
               </select>
             </div>
           </div>
@@ -336,21 +322,18 @@ if ($period == 'breakfast') {
                 type="radio"
                 name="restaurant_id"
                 value="none"
-                <?php
-                // Check if the "No meal" option is selected 
-                if (isset($selectedMeals[$day][$period]) && $selectedMeals[$day][$period]['restaurant_id'] == 'none') {
-                  echo 'checked';
-                }
-                ?>>
+                <?php if (isset($selectedMeals[$day][$period]) && $selectedMeals[$day][$period]['restaurant_id'] == 'none') echo 'checked'; ?>>
               <img class="destination-image" src="https://lakevasion.ddns.net/assets/src/img/empty.png" alt="No meal">
               <div class="destination-content">
-                <h3 class="title">
-                  <?php if ($period == 'breakfast'): ?>
-                    No breakfast reservation
-                  <?php else: ?>
-                    No meal reservation
-                  <?php endif; ?>
-                </h3>
+                <div class="title-rating-container">
+                  <h3 class="title">
+                    <?php echo $period == 'breakfast' ? 'No breakfast reservation' : 'No meal reservation'; ?>
+                  </h3>
+                  <!-- Add invisible rating box -->
+                  <div class="rating-box" style="display: none;">
+                    <span class="rating-value">0</span>
+                  </div>
+                </div>
                 <div class="destination-description">
                   <div class="country-box">
                     <p class="country">
@@ -374,6 +357,7 @@ if ($period == 'breakfast') {
   </main>
 
   <?php require('../components/footer.php'); ?>
+  <script src="../assets/scripts/sort.js"></script>
 </body>
 
 </html>

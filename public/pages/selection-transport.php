@@ -112,6 +112,7 @@ $title = 'Sélection du transport';
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -132,8 +133,8 @@ $title = 'Sélection du transport';
   <link rel="stylesheet" href="../assets/styles/components/card.css">
   <link rel="stylesheet" href="../assets/styles/components/search-input.css">
   <link rel="stylesheet" href="../assets/styles/pages/destinations.css">
-  <!-- Vous pouvez réutiliser les styles d'hébergement -->
   <link rel="stylesheet" href="../assets/styles/pages/selection-hebergement.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -225,11 +226,11 @@ $title = 'Sélection du transport';
               <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> résultat trouvé</p>
             <?php endif; ?>
             <div class="sort-box">
-              <label for="sort">Trier par:</label>
-              <select id="sort" name="sort" onchange="this.form.submit()">
-                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price-asc') ? 'selected' : ''; ?>>Prix (croissant)</option>
-                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price-desc') ? 'selected' : ''; ?>>Prix (décroissant)</option>
-                <option value="rating" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'rating') ? 'selected' : ''; ?>>Avis clients</option>
+              <label for="sort">Trier par :</label>
+              <select id="sort" name="sort">
+                  <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularité</option>
+                  <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Prix croissant</option>
+                  <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Prix décroissant</option>
               </select>
             </div>
           </div>
@@ -325,6 +326,7 @@ $title = 'Sélection du transport';
   </main>
 
   <?php require('../components/footer.php'); ?>
+  <script src="../assets/scripts/sort.js"></script>
 </body>
 
 </html>

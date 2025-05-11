@@ -18,17 +18,17 @@
 
 .destination-card:has(.radio:checked) {
   background-color: var(--primary-color);
-  color: var(--background-color);
+  color: var(--selected-text);
 }
 
 .destination-card:has(.radio:checked) .price,
 .destination-card:has(.radio:checked) .title,
 .destination-card:has(.radio:checked) .euros {
-  color: var(--background-color);
+  color: var(--selected-text);
 }
 
 .destination-card:has(.radio:checked) .title {
-  color: var(--background-color);
+  color: var(--selected-text);
 }
 
 .destination-card:has(.radio:active) {
@@ -90,7 +90,7 @@
 }
 
 .reset {
-  background-color: #f5f5f5;
+  background-color: var(--front-front-color);
   color: var(--text-color);
   border: 1px solid #ddd;
   text-decoration: none;

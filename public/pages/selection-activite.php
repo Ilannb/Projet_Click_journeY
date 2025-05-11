@@ -101,6 +101,7 @@ if (isset($_SESSION['selected_activities']) && isset($_GET['id'])) {
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,6 +126,7 @@ if (isset($_SESSION['selected_activities']) && isset($_GET['id'])) {
   <link rel="stylesheet" href="../assets/styles/components/search-input.css">
   <link rel="stylesheet" href="../assets/styles/pages/destinations.css">
   <link rel="stylesheet" href="../assets/styles/pages/selection-hebergement.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -220,11 +222,10 @@ if (isset($_SESSION['selected_activities']) && isset($_GET['id'])) {
             <?php endif; ?>
             <div class="sort-box">
               <label for="sort">Trier par :</label>
-              <select id="sort" name="sort" onchange="this.form.submit()">
-                <option value="popular" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'popular') ? 'selected' : ''; ?>>Popularité</option>
-                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price-asc') ? 'selected' : ''; ?>>Prix croissant</option>
-                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'price-desc') ? 'selected' : ''; ?>>Prix décroissant</option>
-                <option value="duration" <?php echo (isset($_GET['sort']) && $_GET['sort'] == 'duration') ? 'selected' : ''; ?>>Durée</option>
+              <select id="sort" name="sort">
+                <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularité</option>
+                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Prix croissant</option>
+                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Prix décroissant</option>
               </select>
             </div>
           </div>
@@ -315,7 +316,12 @@ if (isset($_SESSION['selected_activities']) && isset($_GET['id'])) {
                 ?>>
               <img class="destination-image" src="https://lakevasion.ddns.net/assets/src/img/empty.png" alt="Aucune activité">
               <div class="destination-content">
-                <h3 class="title">Temps libre</h3>
+                <div class="title-rating-container">
+                  <h3 class="title">Temps libre</h3>
+                  <div class="rating-box" style="display: none;">
+                    <span class="rating-value">0</span>
+                  </div>
+                </div>
                 <div class="destination-description">
                   <div class="country-box">
                     <p class="country">Profitez de ce moment pour explorer à votre rythme.</p>
@@ -333,6 +339,7 @@ if (isset($_SESSION['selected_activities']) && isset($_GET['id'])) {
   </main>
 
   <?php require('../components/footer.php'); ?>
+  <script src="../assets/scripts/sort.js"></script>
 </body>
 
 </html>

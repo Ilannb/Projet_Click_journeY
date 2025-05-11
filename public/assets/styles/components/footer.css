@@ -5,6 +5,7 @@ footer {
   padding: 0;
   position: relative;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition : background-color 1s ease, color 1s ease;
 }
 
 .footer-box {
@@ -20,6 +21,7 @@ footer {
   padding: 4rem 2rem;
   background-color: var(--primary-color);
   position: relative;
+  transition : background-color 1s ease, color 1s ease;
 }
 
 /* Agency section */

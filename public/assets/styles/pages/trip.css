@@ -2,6 +2,7 @@
 main {
   margin-top: 60px;
   background-color: var(--background-color);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 /* Hero section */
@@ -62,16 +63,18 @@ main {
 }
 
 .destination-content section {
-  background: white;
+  background: var(--front-color);
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .destination-content h2 {
-  color: var(--primary-color);
+  color: var(--contrast-text);
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 /* Highlights grid */
@@ -89,6 +92,7 @@ main {
   padding: 0.5rem 1rem;
   background-color: var(--background-color);
   border-radius: var(--border-radius);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .highlight-item i {
@@ -96,6 +100,7 @@ main {
   color: var(--secondary-color);
   width: 30px;
   text-align: center;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 /* Accommodation info section */
@@ -120,26 +125,27 @@ main {
 }
 
 .info h3 {
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
+  color: var(--contrast-text);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .accommodation-price {
   font-weight: bold;
   color: var(--secondary-color);
   margin: 0.5rem 0;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .modify-activity-btn {
   display: inline-block;
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--light-text);
   padding: 8px 15px;
   border-radius: 4px;
   text-decoration: none;
   margin-top: 10px;
   font-size: 14px;
-  transition: background-color 0.3s;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .modify-activity-btn:hover {
@@ -202,7 +208,7 @@ main {
 /* Booking summary card */
 .booking-card {
   display: flex;
-  background: white;
+  background: var(--front-color);
   padding: 1.5rem;
   border-radius: var(--border-radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -224,16 +230,19 @@ main {
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--secondary-color);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .price-person {
   font-size: 0.9rem;
   color: var(--text-color);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .total-price {
   margin: 1rem 0;
   font-size: 1.2rem;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .book-button {
@@ -241,12 +250,12 @@ main {
   justify-content: center;
   padding: 1rem;
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--light-text);
   border-radius: var(--border-radius);
   border: none;
   font-size: 1rem;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: background-color 1s ease, color 1s ease;
   cursor: pointer;
   width: 100%;
 }
@@ -261,29 +270,32 @@ main {
   color: var(--orange-color);
   margin: 10px 0;
   font-size: 16px;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 /* Timeline Styles */
 .day-timeline {
   margin: 2rem 0;
   border-radius: 8px;
-  background-color: #f8f9fa;
+  background-color: var(--background-color);
   border: 2px solid var(--primary-color);
   overflow: hidden;
 }
 
 .day-header {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--light-text);
   padding: 0.8rem;
   text-align: center;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .day-header h2 {
   margin: 0;
-  color: white;
+  color: var(--light-text);
   font-size: 1.5rem;
   font-weight: 500;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .timeline-boxes {
@@ -297,7 +309,7 @@ main {
 .timeline-box {
   flex: 0 0 18%;
   min-width: 160px;
-  background-color: white;
+  background-color: var(--front-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
@@ -306,7 +318,7 @@ main {
   align-items: center;
   text-align: center;
   margin: 0 0.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: background-color 1s ease, color 1s ease, transform 0.2s, box-shadow 0.2s;
 }
 
 .timeline-box:hover {
@@ -315,7 +327,7 @@ main {
 }
 
 .timeline-box-single {
-  background-color: white;
+  background-color: var(--front-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 2rem;
@@ -324,6 +336,7 @@ main {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  transition: background-color 1s ease, color 1s ease, box-shadow 0.2s ease;
 }
 
 .activity-icon {
@@ -363,18 +376,21 @@ main {
   margin: 0 0 0.3rem 0;
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--alt-text-color);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .activity-time {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--text-color);
   margin-bottom: 0.8rem;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .activity-description {
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-color);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .selection-status {
@@ -383,7 +399,8 @@ main {
   gap: 0.3rem;
   margin-bottom: 0.5rem;
   font-size: 0.8rem;
-  color: #777;
+  color: var(--text-color);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .selection-status.selected {
@@ -404,13 +421,13 @@ main {
 .activity-button {
   display: inline-block;
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--light-text);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   text-decoration: none;
   font-size: 0.8rem;
   margin-top: auto;
-  transition: background-color 0.2s;
+  transition: background-color 1s ease, color 1s ease;
 }
 
 .activity-button:hover {
@@ -432,4 +449,51 @@ main {
   padding: 2px 8px;
   border-radius: 4px;
   margin-left: 8px;
+}
+
+.booking-buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.8rem;
+}
+
+.add-to-cart-form,
+.payment-form {
+  width: 100%;
+}
+
+.cart-button,
+.book-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: none;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.cart-button {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+}
+
+.cart-button:hover {
+  background-color: var(--accent-color);
+}
+
+.book-button {
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+}
+
+.book-button:hover {
+  background-color: var(--accent-color);
 }

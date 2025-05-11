@@ -88,22 +88,7 @@ if (!empty($whereConditions)) {
   $query .= " WHERE " . implode(" AND ", $whereConditions);
 }
 
-// Add sorting
-switch ($sortOption) {
-  case 'price-asc':
-    $query .= " ORDER BY price ASC";
-    break;
-  case 'price-desc':
-    $query .= " ORDER BY price DESC";
-    break;
-  case 'duration':
-    $query .= " ORDER BY duration ASC";
-    break;
-  case 'popular':
-  default:
-    $query .= " ORDER BY rating DESC";
-    break;
-}
+$query .= " ORDER BY rating DESC";
 
 // Prepare and execute the query
 $stmt = $conn->prepare($query);
@@ -121,6 +106,7 @@ $title = 'Nos Destinations';
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -144,6 +130,7 @@ $title = 'Nos Destinations';
   <link rel="stylesheet" href="../assets/styles/components/card.css">
   <link rel="stylesheet" href="../assets/styles/components/search-input.css">
   <link rel="stylesheet" href="../assets/styles/pages/destinations.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -292,14 +279,13 @@ $title = 'Nos Destinations';
                 }
               }
               ?>
-
               <div class="sort-box">
                 <label for="sort">Trier par :</label>
-                <select id="sort" name="sort" onchange="this.form.submit()">
-                  <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularité</option>
-                  <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Prix croissant</option>
-                  <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Prix décroissant</option>
-                  <option value="duration" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'duration') ? 'selected' : ''; ?>>Durée</option>
+                <select id="sort" name="sort">
+                    <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularité</option>
+                    <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Prix croissant</option>
+                    <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Prix décroissant</option>
+                    <option value="duration" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'duration') ? 'selected' : ''; ?>>Durée</option>
                 </select>
               </div>
             </form>
@@ -366,6 +352,7 @@ $title = 'Nos Destinations';
   </main>
 
   <?php require('../components/footer.php'); ?>
+  <script src="../assets/scripts/sort.js"></script>
 </body>
 
 </html>
