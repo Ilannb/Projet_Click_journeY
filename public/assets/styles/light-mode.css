@@ -1,0 +1,19 @@
+/* Variables for the graphic charter */
+:root {
+  /* Colors */
+  --primary-color: #004449;
+  --secondary-color: #40916d;
+  --accent-color: #36868e;
+  --background-color: #f4f1eb;
+  --text-color: #737373;
+  --light-text: #FFFFFF;
+  --red-color: #dc3545;
+  --green-color: #198754;
+  --blue-color: #0084ff;
+  --orange-color : #e69500;
+  --contrast-text : #004449;
+  --front-color :#FFFFFF;
+  --alt-text-color: #333;
+  --front-front-color :#e5e5e5e5;  
+  --selected-text : #f4f1eb;
+}
