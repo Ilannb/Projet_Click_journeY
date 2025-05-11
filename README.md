@@ -101,7 +101,7 @@ lakevasion/
   - [W3Schools - HTML](https://www.w3schools.com/html)
   - [W3Schools - CSS](https://www.w3schools.com/css)
   - [W3Schools - PHP](https://www.w3schools.com/php)
-  - [W3Schools - PHP](https://www.w3schools.com/js/)
+  - [W3Schools - PHP](https://www.w3schools.com/js)
   - [W3Schools - MySQL](https://www.w3schools.com/MySQL)
   - [Nginx](https://nginx.org/en/docs/beginners_guide.html)
 
