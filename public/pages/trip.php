@@ -194,6 +194,7 @@ $title = $destination['title'];
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -212,6 +213,7 @@ $title = $destination['title'];
   <link rel="stylesheet" href="../assets/styles/components/header.css">
   <link rel="stylesheet" href="../assets/styles/components/footer.css">
   <link rel="stylesheet" href="../assets/styles/pages/trip.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -757,13 +759,29 @@ $title = $destination['title'];
           <span>Prix total : <strong><?php echo htmlspecialchars($totalPrice); ?>€</strong></span>
         </div>
 
-        <form action="payment" method="get">
-          <input type="hidden" name="destination_id" value="<?php echo $id; ?>">
-          <input type="hidden" name="start_date" value="<?php echo $startDate; ?>">
-          <input type="hidden" name="end_date" value="<?php echo $endDate; ?>">
-          <input type="hidden" name="total_price" value="<?php echo $totalPrice; ?>">
-          <button type="submit" class="book-button">Réserver ce séjour</button>
-        </form>
+        <div class="booking-buttons">
+          <form action="add_to_cart.php" method="post" class="add-to-cart-form">
+            <input type="hidden" name="destination_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="title" value="<?php echo htmlspecialchars($destination['title']); ?>">
+            <input type="hidden" name="destination_image" value="<?php echo htmlspecialchars($destination['image_path']); ?>">
+            <input type="hidden" name="start_date" value="<?php echo $startDate; ?>">
+            <input type="hidden" name="end_date" value="<?php echo $endDate; ?>">
+            <input type="hidden" name="price" value="<?php echo $totalPrice; ?>">
+            <button type="submit" class="cart-button">
+              <i class="fas fa-shopping-cart"></i> Ajouter au panier
+            </button>
+          </form>
+
+          <form action="payment" method="get" class="payment-form">
+            <input type="hidden" name="destination_id" value="<?php echo $id; ?>">
+            <input type="hidden" name="start_date" value="<?php echo $startDate; ?>">
+            <input type="hidden" name="end_date" value="<?php echo $endDate; ?>">
+            <input type="hidden" name="total_price" value="<?php echo $totalPrice; ?>">
+            <button type="submit" class="book-button">
+              <i class="fas fa-credit-card"></i> Réserver ce séjour
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </main>
