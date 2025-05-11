@@ -230,6 +230,7 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
 <html lang="fr">
 
 <head>
+  <script src="/public/assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -252,6 +253,7 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
   <link rel="stylesheet" href="../assets/styles/components/footer.css">
   <link rel="stylesheet" href="../assets/styles/components/badge.css">
   <link rel="stylesheet" href="../assets/styles/pages/user.css">
+  <link rel="stylesheet" id="theme-style" href="assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -422,11 +424,11 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
               <div class="password-requirements">
                 <p>Le mot de passe doit contenir :</p>
                 <ul>
-                  <li>Au moins 8 caractères</li>
-                  <li>Une lettre majuscule</li>
-                  <li>Une lettre minuscule</li>
-                  <li>Un chiffre</li>
-                  <li>Un caractère spécial</li>
+                  <li><i class="fas fa-xmark"></i> Au moins 8 caractères</li>
+                  <li><i class="fas fa-xmark"></i> Une lettre majuscule</li>
+                  <li><i class="fas fa-xmark"></i> Une lettre minuscule</li>
+                  <li><i class="fas fa-xmark"></i> Un chiffre</li>
+                  <li><i class="fas fa-xmark"></i> Un caractère spécial</li>
                 </ul>
               </div>
               <div class="form-buttons">
@@ -601,5 +603,7 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
     }
   </script>
 </body>
+
+<script src="../assets/scripts/password_check.js"></script>
 
 </html>

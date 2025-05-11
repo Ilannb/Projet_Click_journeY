@@ -131,6 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-btn'])) {
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,6 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-btn'])) {
   <link rel="stylesheet" href="../assets/styles/global.css">
   <link rel="stylesheet" href="../assets/styles/components/search-input.css">
   <link rel="stylesheet" href="../assets/styles/pages/login.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
@@ -209,5 +211,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login-btn'])) {
     </p>
   </div>
 </body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleButtons = document.querySelectorAll('.password-toggle');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.previousElementSibling;
+        const icon = this.querySelector('i');
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.className = 'fas fa-eye-slash';
+        } else {
+          input.type = 'password';
+          icon.className = 'fas fa-eye';
+        }
+      });
+    });
+  });
+</script>
 
 </html>

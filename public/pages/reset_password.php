@@ -123,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
 <html lang="fr">
 
 <head>
+  <script src="../assets/scripts/theme-init.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="MI5-I | Illya Liganov, Ilann Boudria, Rindra Rakotonirina">
@@ -137,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
   <link rel="stylesheet" href="../assets/styles/global.css">
   <link rel="stylesheet" href="../assets/styles/components/search-input.css">
   <link rel="stylesheet" href="../assets/styles/pages/reset_password.css">
+  <link rel="stylesheet" id="theme-style" href="../assets/styles/light-mode.css">
 
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
   <title>LakEvasion - Réinitialisation mot de passe</title>
@@ -227,5 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
     </p>
   </div>
 </body>
+
+<script src="../assets/scripts/password_check.js"></script>
 
 </html>
