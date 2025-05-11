@@ -55,6 +55,7 @@ lakevasion/
 ├── public/                             # Dossier publique (côté client) du site
 │   ├── assets/                           # Ressources
 │   │   ├── fontawesome/                    # [Exclu de Git] Icônes FontAwesome
+│   │   ├── scripts/                        # Fichiers JavaScript (.js)
 │   │   ├── src/                            # Sources
 │   │   │   └── img/                          # Images (.jpg)
 │   │   │       └── ...
@@ -93,11 +94,14 @@ lakevasion/
   - 10_Cours_complet_HTML.pdf
   - 20-CSS.pdf
   - 30_Cours_PHP.pdf
+  - 40_Cours_JS_DOM.pdf
+  - 40_Cours_JS.pdf
 
 - Ressources externes :
   - [W3Schools - HTML](https://www.w3schools.com/html)
   - [W3Schools - CSS](https://www.w3schools.com/css)
   - [W3Schools - PHP](https://www.w3schools.com/php)
+  - [W3Schools - PHP](https://www.w3schools.com/js/)
   - [W3Schools - MySQL](https://www.w3schools.com/MySQL)
   - [Nginx](https://nginx.org/en/docs/beginners_guide.html)
 
