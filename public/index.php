@@ -18,6 +18,9 @@ $title = 'Offre unique : Hôtel <span class="underlined">gratuit</span> pour les
 <html lang="fr">
 
 <head>
+  <script src="/public/assets/scripts/theme-init.js">
+   
+  </script>
   <!-- Meta Tags -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,16 +38,19 @@ $title = 'Offre unique : Hôtel <span class="underlined">gratuit</span> pour les
   <link rel="stylesheet" href="https://lakevasion.ddns.net/assets/fontawesome/css/all.min.css">
 
   <!-- CSS -->
+    <script src="assets/scripts/theme-init.js"></script>
   <link rel="stylesheet" href="assets/styles/global.css">
   <link rel="stylesheet" href="assets/styles/components/header.css">
   <link rel="stylesheet" href="assets/styles/components/footer.css">
   <link rel="stylesheet" href="assets/styles/components/card.css">
   <link rel="stylesheet" href="assets/styles/components/search-input.css">
   <link rel="stylesheet" href="assets/styles/pages/index.css">
+  <link rel="stylesheet" id="theme-style" href="assets/styles/light-mode.css">
 
   <!-- Tab Display -->
   <link rel="icon" href="assets/src/img/favicon.ico" type="image/x-icon">
   <title>LakEvasion - Accueil</title>
+
 </head>
 
 <body>
