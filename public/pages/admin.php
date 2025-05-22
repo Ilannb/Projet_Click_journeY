@@ -8,50 +8,59 @@ require_once(__DIR__ . '/../../app/includes/admin_auth.php');
 // Check if the user is logged in
 $isLoggedIn = isset($_SESSION['user_id']);
 
-// Managing actions on users
-if (isset($_POST['action']) && isset($_POST['user_id'])) {
+// AJAX handler for user actions
+if (isset($_POST['ajax']) && $_POST['ajax'] === 'true') {
+  header('Content-Type: application/json');
+
+  if (!isset($_POST['action']) || !isset($_POST['user_id'])) {
+    echo json_encode(['success' => false, 'message' => 'Paramètres manquants']);
+    exit();
+  }
+
   $user_id = $_POST['user_id'];
   $action = $_POST['action'];
 
-  switch ($action) {
-    case 'edit':
-      // Redirect to an edit form with the ID
-      header("Location: user?id=$user_id");
-      exit();
-      break;
+  // Simulate processing delay
+  sleep(2);
 
-    case 'promote':
-      // Promote a user to VIP
-      $stmt = $conn->prepare("UPDATE users SET role = 'vip' WHERE id = ?");
-      $stmt->execute([$user_id]);
-      break;
+  try {
+    switch ($action) {
+      case 'promote':
+        $stmt = $conn->prepare("UPDATE users SET role = 'vip' WHERE id = ?");
+        $stmt->execute([$user_id]);
+        echo json_encode(['success' => true, 'message' => 'Utilisateur promu en VIP', 'new_role' => 'vip']);
+        break;
 
-    case 'demote':
-      // Demote a VIP user to normal user
-      $stmt = $conn->prepare("UPDATE users SET role = 'user' WHERE id = ?");
-      $stmt->execute([$user_id]);
-      break;
+      case 'demote':
+        $stmt = $conn->prepare("UPDATE users SET role = 'user' WHERE id = ?");
+        $stmt->execute([$user_id]);
+        echo json_encode(['success' => true, 'message' => 'Utilisateur rétrogradé', 'new_role' => 'user']);
+        break;
 
-    case 'delete':
-      // Delete a user
-      $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-      $stmt->execute([$user_id]);
-      break;
+      case 'ban':
+        $stmt = $conn->prepare("UPDATE users SET role = 'banned' WHERE id = ?");
+        $stmt->execute([$user_id]);
+        echo json_encode(['success' => true, 'message' => 'Utilisateur banni', 'new_role' => 'banned']);
+        break;
 
-    case 'ban':
-      // Ban a user
-      $stmt = $conn->prepare("UPDATE users SET role = 'banned' WHERE id = ?");
-      $stmt->execute([$user_id]);
-      break;
+      case 'unban':
+        $stmt = $conn->prepare("UPDATE users SET role = 'user' WHERE id = ?");
+        $stmt->execute([$user_id]);
+        echo json_encode(['success' => true, 'message' => 'Utilisateur débanni', 'new_role' => 'user']);
+        break;
 
-    case 'unban':
-      // Unban a user
-      $stmt = $conn->prepare("UPDATE users SET role = 'user' WHERE id = ?");
-      $stmt->execute([$user_id]);
-      break;
+      case 'delete':
+        $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->execute([$user_id]);
+        echo json_encode(['success' => true, 'message' => 'Utilisateur supprimé', 'deleted' => true]);
+        break;
+
+      default:
+        echo json_encode(['success' => false, 'message' => 'Action non reconnue']);
+    }
+  } catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Erreur: ' . $e->getMessage()]);
   }
-
-  header('Location: admin');
   exit();
 }
 
@@ -208,7 +217,7 @@ $title = 'Pannel Admin';
               </tr>
             <?php else: ?>
               <?php foreach ($users as $user): ?>
-                <tr>
+                <tr data-user-id="<?php echo $user['id']; ?>">
                   <td>
                     #<?php echo htmlspecialchars($user['id']); ?>
                   </td>
@@ -238,7 +247,8 @@ $title = 'Pannel Admin';
                   <td>
                     <?php echo htmlspecialchars($user['formatted_date']); ?>
                   </td>
-                  <td><span class="status <?php echo htmlspecialchars(strtolower($user['role'])); ?>">
+                  <td>
+                    <span class="status <?php echo htmlspecialchars(strtolower($user['role'])); ?>" data-role="<?php echo htmlspecialchars($user['role']); ?>">
                       <?php
                       switch ($user['role']) {
                         case 'admin':
@@ -257,36 +267,34 @@ $title = 'Pannel Admin';
                           echo htmlspecialchars($user['role']);
                       }
                       ?>
-                    </span></td>
+                    </span>
+                  </td>
                   <td class="actions-cell">
-                    <form method="POST" action="<?php echo htmlspecialchars(preg_replace('/\.php$/', '', $_SERVER["PHP_SELF"])); ?>" style="display: inline;">
-                      <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-
+                    <div class="action-buttons" data-user-id="<?php echo $user['id']; ?>">
                       <?php if ($user['role'] !== 'banned'): ?>
                         <?php if ($user['role'] === 'user'): ?>
-                          <button type="submit" name="action" value="promote" class="action-btn promote" title="Promouvoir">
+                          <button type="button" class="action-btn promote ajax-action" data-action="promote" data-user-id="<?php echo $user['id']; ?>" title="Promouvoir">
                             <i class="fas fa-crown"></i>
                           </button>
                         <?php elseif ($user['role'] === 'vip'): ?>
-                          <button type="submit" name="action" value="demote" class="action-btn demote" title="Rétrograder">
+                          <button type="button" class="action-btn demote ajax-action" data-action="demote" data-user-id="<?php echo $user['id']; ?>" title="Rétrograder">
                             <i class="fas fa-level-down-alt"></i>
                           </button>
                         <?php endif; ?>
 
-                        <button type="submit" name="action" value="ban" class="action-btn ban" title="Bannir">
+                        <button type="button" class="action-btn ban ajax-action" data-action="ban" data-user-id="<?php echo $user['id']; ?>" title="Bannir">
                           <i class="fas fa-ban"></i>
                         </button>
                       <?php else: ?>
-                        <button type="submit" name="action" value="unban" class="action-btn unban" title="Débannir">
+                        <button type="button" class="action-btn unban ajax-action" data-action="unban" data-user-id="<?php echo $user['id']; ?>" title="Débannir">
                           <i class="fas fa-unlock"></i>
                         </button>
                       <?php endif; ?>
 
-                      <button type="submit" name="action" value="delete" class="action-btn delete" title="Supprimer"
-                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                      <button type="button" class="action-btn delete ajax-action" data-action="delete" data-user-id="<?php echo $user['id']; ?>" title="Supprimer">
                         <i class="fas fa-trash"></i>
                       </button>
-                    </form>
+                    </div>
                   </td>
                   <td class="history-cell">
                     <a href="user?id=<?php echo $user['id']; ?>" class="action-btn history" title="Voir">
@@ -329,5 +337,7 @@ $title = 'Pannel Admin';
     </div>
   </main>
 </body>
+
+<script type="text/javascript" src="../assets/scripts/admin.js"></script>
 
 </html>

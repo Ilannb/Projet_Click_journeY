@@ -46,6 +46,160 @@ if (!file_exists($upload_dir)) {
   mkdir($upload_dir, 0755, true);
 }
 
+// AJAX handler for profile updates
+if (isset($_POST['ajax']) && $_POST['ajax'] === 'true') {
+  header('Content-Type: application/json');
+  if ($viewing_other_user) {
+    $admin_check = $conn->prepare("SELECT role FROM users WHERE id = :id");
+    $admin_check->bindParam(':id', $_SESSION['user_id']);
+    $admin_check->execute();
+    $user_role = $admin_check->fetchColumn();
+
+    if ($user_role !== 'admin') {
+      echo json_encode(['success' => false, 'message' => 'Non autorisé']);
+      exit();
+    }
+  }
+
+  // Simulate processing delay
+  sleep(2);
+
+  try {
+    $action = $_POST['action'] ?? '';
+
+    switch ($action) {
+      case 'update_lastname':
+        $new_lastname = trim($_POST['lastname']);
+        if (empty($new_lastname)) {
+          echo json_encode(['success' => false, 'message' => 'Le nom ne peut pas être vide']);
+          exit();
+        }
+
+        $update_stmt = $conn->prepare("UPDATE users SET lastname = :lastname WHERE id = :id");
+        $update_stmt->bindParam(':lastname', $new_lastname);
+        $update_stmt->bindParam(':id', $user_id);
+        $update_stmt->execute();
+
+        if (!$viewing_other_user) {
+          $_SESSION['user_lastname'] = $new_lastname;
+        }
+
+        echo json_encode(['success' => true, 'message' => 'Nom mis à jour avec succès', 'value' => $new_lastname]);
+        break;
+
+      case 'update_firstname':
+        $new_firstname = trim($_POST['firstname']);
+        if (empty($new_firstname)) {
+          echo json_encode(['success' => false, 'message' => 'Le prénom ne peut pas être vide']);
+          exit();
+        }
+
+        $update_stmt = $conn->prepare("UPDATE users SET firstname = :firstname WHERE id = :id");
+        $update_stmt->bindParam(':firstname', $new_firstname);
+        $update_stmt->bindParam(':id', $user_id);
+        $update_stmt->execute();
+
+        if (!$viewing_other_user) {
+          $_SESSION['user_firstname'] = $new_firstname;
+        }
+
+        echo json_encode(['success' => true, 'message' => 'Prénom mis à jour avec succès', 'value' => $new_firstname]);
+        break;
+
+      case 'update_email':
+        $new_email = trim($_POST['email']);
+        if (empty($new_email)) {
+          echo json_encode(['success' => false, 'message' => 'L\'email ne peut pas être vide']);
+          exit();
+        }
+        if (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
+          echo json_encode(['success' => false, 'message' => 'Format d\'email invalide']);
+          exit();
+        }
+
+        // Check if email already exists
+        $check_stmt = $conn->prepare("SELECT id FROM users WHERE email = :email AND id != :id");
+        $check_stmt->bindParam(':email', $new_email);
+        $check_stmt->bindParam(':id', $user_id);
+        $check_stmt->execute();
+
+        if ($check_stmt->rowCount() > 0) {
+          echo json_encode(['success' => false, 'message' => 'Cette adresse email est déjà utilisée']);
+          exit();
+        }
+
+        $update_stmt = $conn->prepare("UPDATE users SET email = :email WHERE id = :id");
+        $update_stmt->bindParam(':email', $new_email);
+        $update_stmt->bindParam(':id', $user_id);
+        $update_stmt->execute();
+
+        if (!$viewing_other_user) {
+          $_SESSION['user_email'] = $new_email;
+        }
+
+        echo json_encode(['success' => true, 'message' => 'Email mis à jour avec succès', 'value' => $new_email]);
+        break;
+
+      case 'update_phone':
+        $new_phone = trim($_POST['phone']);
+        if (!empty($new_phone) && !preg_match('/^[+]?[0-9\s]{10,15}$/', $new_phone)) {
+          echo json_encode(['success' => false, 'message' => 'Format de numéro de téléphone invalide']);
+          exit();
+        }
+
+        $update_stmt = $conn->prepare("UPDATE users SET phone = :phone WHERE id = :id");
+        $update_stmt->bindParam(':phone', $new_phone);
+        $update_stmt->bindParam(':id', $user_id);
+        $update_stmt->execute();
+
+        echo json_encode(['success' => true, 'message' => 'Numéro de téléphone mis à jour avec succès', 'value' => $new_phone ?: 'Non renseigné']);
+        break;
+
+      case 'update_password':
+        // Get current user password
+        $user_stmt = $conn->prepare("SELECT password FROM users WHERE id = :id");
+        $user_stmt->bindParam(':id', $user_id);
+        $user_stmt->execute();
+        $current_user = $user_stmt->fetch(PDO::FETCH_ASSOC);
+
+        $current_password = trim($_POST['current_password']);
+        $new_password = trim($_POST['new_password']);
+        $confirm_password = trim($_POST['confirm_password']);
+
+        if (!password_verify($current_password, $current_user['password'])) {
+          echo json_encode(['success' => false, 'message' => 'Le mot de passe actuel est incorrect']);
+          exit();
+        }
+        if ($new_password !== $confirm_password) {
+          echo json_encode(['success' => false, 'message' => 'Les nouveaux mots de passe ne correspondent pas']);
+          exit();
+        }
+
+        // Check password complexity
+        $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-])[A-Za-z\d@$!%*?&\-]{8,}$/';
+        if (!preg_match($password_regex, $new_password)) {
+          echo json_encode(['success' => false, 'message' => 'Le mot de passe ne répond pas aux exigences de sécurité']);
+          exit();
+        }
+
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+        $update_stmt = $conn->prepare("UPDATE users SET password = :password WHERE id = :id");
+        $update_stmt->bindParam(':password', $hashed_password);
+        $update_stmt->bindParam(':id', $user_id);
+        $update_stmt->execute();
+
+        echo json_encode(['success' => true, 'message' => 'Mot de passe mis à jour avec succès']);
+        break;
+
+      default:
+        echo json_encode(['success' => false, 'message' => 'Action non reconnue']);
+    }
+  } catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Erreur: ' . $e->getMessage()]);
+  }
+  exit();
+}
+
 // Fetch user data from database
 try {
   $stmt = $conn->prepare("SELECT id, lastname, firstname, email, password, role, created_at, phone, profile_image FROM users WHERE id = :id");
@@ -64,10 +218,9 @@ try {
 }
 
 // Form processing
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // Check if current user is authorized to modify this profile
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && (!isset($_POST['ajax']) || $_POST['ajax'] !== 'true')) {
   if ($viewing_other_user) {
-    // Verify again if the user is admin
+    // Verify if the user is admin
     $admin_check = $conn->prepare("SELECT role FROM users WHERE id = :id");
     $admin_check->bindParam(':id', $_SESSION['user_id']);
     $admin_check->execute();
@@ -79,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       exit;
     }
   }
-  
+
   // Update profile image
   if (isset($_POST['update_profile_image']) && isset($_FILES['profile_image'])) {
     $file = $_FILES['profile_image'];
@@ -115,110 +268,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Format non supporté. Utilisez JPG, PNG ou GIF";
       }
     }
-  }
-  // Update last name
-  elseif (isset($_POST['update_lastname'])) {
-    $new_lastname = trim($_POST['lastname']);
-    if (!empty($new_lastname)) {
-      $update_stmt = $conn->prepare("UPDATE users SET lastname = :lastname WHERE id = :id");
-      $update_stmt->bindParam(':lastname', $new_lastname);
-      $update_stmt->bindParam(':id', $user_id);
-      $update_stmt->execute();
-      $user['lastname'] = $new_lastname;
-      $_SESSION['user_lastname'] = $new_lastname;
-      $success = "Nom mis à jour avec succès";
-    } else {
-      $error = "Le nom ne peut pas être vide";
-    }
-  }
-  // Update first name
-  elseif (isset($_POST['update_firstname'])) {
-    $new_firstname = trim($_POST['firstname']);
-    if (!empty($new_firstname)) {
-      $update_stmt = $conn->prepare("UPDATE users SET firstname = :firstname WHERE id = :id");
-      $update_stmt->bindParam(':firstname', $new_firstname);
-      $update_stmt->bindParam(':id', $user_id);
-      $update_stmt->execute();
-      $user['firstname'] = $new_firstname;
-      $_SESSION['user_firstname'] = $new_firstname;
-      $success = "Prénom mis à jour avec succès";
-    } else {
-      $error = "Le prénom ne peut pas être vide";
-    }
-  }
-  // Update email
-  elseif (isset($_POST['update_email'])) {
-    $new_email = trim($_POST['email']);
-    if (empty($new_email)) {
-      $error = "L'email ne peut pas être vide";
-    } elseif (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
-      $error = "Format d'email invalide";
-    } else {
-      // Check if email already exists
-      $check_stmt = $conn->prepare("SELECT id FROM users WHERE email = :email AND id != :id");
-      $check_stmt->bindParam(':email', $new_email);
-      $check_stmt->bindParam(':id', $user_id);
-      $check_stmt->execute();
-
-      if ($check_stmt->rowCount() > 0) {
-        $error = "Cette adresse email est déjà utilisée";
-      } else {
-        $update_stmt = $conn->prepare("UPDATE users SET email = :email WHERE id = :id");
-        $update_stmt->bindParam(':email', $new_email);
-        $update_stmt->bindParam(':id', $user_id);
-        $update_stmt->execute();
-        $user['email'] = $new_email;
-        $_SESSION['user_email'] = $new_email;
-        $success = "Email mis à jour avec succès";
-      }
-    }
-  }
-  // Update phone number
-  elseif (isset($_POST['update_phone'])) {
-    $new_phone = trim($_POST['phone']);
-    if (!empty($new_phone) && !preg_match('/^[+]?[0-9\s]{10,15}$/', $new_phone)) {
-      $error = "Format de numéro de téléphone invalide";
-    } else {
-      $update_stmt = $conn->prepare("UPDATE users SET phone = :phone WHERE id = :id");
-      $update_stmt->bindParam(':phone', $new_phone);
-      $update_stmt->bindParam(':id', $user_id);
-      $update_stmt->execute();
-      $user['phone'] = $new_phone;
-      $success = "Numéro de téléphone mis à jour avec succès";
-    }
-  }
-  // Update password
-  elseif (isset($_POST['update_password'])) {
-    $current_password = trim($_POST['current_password']);
-    $new_password = trim($_POST['new_password']);
-    $confirm_password = trim($_POST['confirm_password']);
-
-    if (!password_verify($current_password, $user['password'])) {
-      $error = "Le mot de passe actuel est incorrect";
-    } elseif ($new_password !== $confirm_password) {
-      $error = "Les nouveaux mots de passe ne correspondent pas";
-    } else {
-      // Check password complexity
-      $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-])[A-Za-z\d@$!%*?&\-]{8,}$/';
-      if (!preg_match($password_regex, $new_password)) {
-        $error = "Le mot de passe ne répond pas aux exigences de sécurité";
-      } else {
-        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-        $update_stmt = $conn->prepare("UPDATE users SET password = :password WHERE id = :id");
-        $update_stmt->bindParam(':password', $hashed_password);
-        $update_stmt->bindParam(':id', $user_id);
-        $update_stmt->execute();
-        $success = "Mot de passe mis à jour avec succès";
-      }
-    }
-  }
-
-  // Refresh user data after update
-  if ($success) {
-    $stmt = $conn->prepare("SELECT id, lastname, firstname, email, password, role, created_at, phone, profile_image FROM users WHERE id = :id");
-    $stmt->bindParam(':id', $user_id);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }
 
@@ -319,17 +368,17 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
           <div class="detail-group">
             <p>Nom</p>
             <div class="editable-field" id="lastname-field">
-              <p><?php echo htmlspecialchars($user['lastname']); ?></p>
+              <p id="lastname-display"><?php echo htmlspecialchars($user['lastname']); ?></p>
               <?php if (!$viewing_other_user || $_SESSION['user_role'] === 'admin'): ?>
                 <button class="edit-btn" onclick="toggleEditForm('lastname')">
                   <i class="fas fa-pen"></i>
                 </button>
               <?php endif; ?>
             </div>
-            <form action="" method="post" class="edit-form" id="lastname-form" style="display: none;">
+            <form class="edit-form ajax-form" id="lastname-form" style="display: none;" data-field="lastname">
               <input type="text" name="lastname" value="<?php echo htmlspecialchars($user['lastname']); ?>" required>
               <div class="form-buttons">
-                <button type="submit" name="update_lastname" class="save-btn"><i class="fas fa-check"></i></button>
+                <button type="submit" class="save-btn"><i class="fas fa-check"></i></button>
                 <button type="button" class="cancel-btn" onclick="toggleEditForm('lastname')"><i class="fas fa-times"></i></button>
               </div>
             </form>
@@ -339,15 +388,15 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
           <div class="detail-group">
             <p>Prénom</p>
             <div class="editable-field" id="firstname-field">
-              <p><?php echo htmlspecialchars($user['firstname']); ?></p>
+              <p id="firstname-display"><?php echo htmlspecialchars($user['firstname']); ?></p>
               <button class="edit-btn" onclick="toggleEditForm('firstname')">
                 <i class="fas fa-pen"></i>
               </button>
             </div>
-            <form action="" method="post" class="edit-form" id="firstname-form" style="display: none;">
+            <form class="edit-form ajax-form" id="firstname-form" style="display: none;" data-field="firstname">
               <input type="text" name="firstname" value="<?php echo htmlspecialchars($user['firstname']); ?>" required>
               <div class="form-buttons">
-                <button type="submit" name="update_firstname" class="save-btn"><i class="fas fa-check"></i></button>
+                <button type="submit" class="save-btn"><i class="fas fa-check"></i></button>
                 <button type="button" class="cancel-btn" onclick="toggleEditForm('firstname')"><i class="fas fa-times"></i></button>
               </div>
             </form>
@@ -357,15 +406,15 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
           <div class="detail-group">
             <p>Email</p>
             <div class="editable-field" id="email-field">
-              <p><?php echo htmlspecialchars($user['email']); ?></p>
+              <p id="email-display"><?php echo htmlspecialchars($user['email']); ?></p>
               <button class="edit-btn" onclick="toggleEditForm('email')">
                 <i class="fas fa-pen"></i>
               </button>
             </div>
-            <form action="" method="post" class="edit-form" id="email-form" style="display: none;">
+            <form class="edit-form ajax-form" id="email-form" style="display: none;" data-field="email">
               <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
               <div class="form-buttons">
-                <button type="submit" name="update_email" class="save-btn"><i class="fas fa-check"></i></button>
+                <button type="submit" class="save-btn"><i class="fas fa-check"></i></button>
                 <button type="button" class="cancel-btn" onclick="toggleEditForm('email')"><i class="fas fa-times"></i></button>
               </div>
             </form>
@@ -375,15 +424,15 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
           <div class="detail-group">
             <p>Téléphone</p>
             <div class="editable-field" id="phone-field">
-              <p><?php echo $user['phone'] ? htmlspecialchars($user['phone']) : 'Non renseigné'; ?></p>
+              <p id="phone-display"><?php echo $user['phone'] ? htmlspecialchars($user['phone']) : 'Non renseigné'; ?></p>
               <button class="edit-btn" onclick="toggleEditForm('phone')">
                 <i class="fas fa-pen"></i>
               </button>
             </div>
-            <form action="" method="post" class="edit-form" id="phone-form" style="display: none;">
+            <form class="edit-form ajax-form" id="phone-form" style="display: none;" data-field="phone">
               <input type="tel" name="phone" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>" placeholder="+33 1 23 45 67 89">
               <div class="form-buttons">
-                <button type="submit" name="update_phone" class="save-btn"><i class="fas fa-check"></i></button>
+                <button type="submit" class="save-btn"><i class="fas fa-check"></i></button>
                 <button type="button" class="cancel-btn" onclick="toggleEditForm('phone')"><i class="fas fa-times"></i></button>
               </div>
             </form>
@@ -398,7 +447,7 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
                 <i class="fas fa-pen"></i>
               </button>
             </div>
-            <form action="" method="post" class="edit-form" id="password-form" style="display: none;">
+            <form class="edit-form ajax-form" id="password-form" style="display: none;" data-field="password">
               <!-- Current Password Input -->
               <div class="password-input-container">
                 <input type="password" name="current_password" id="current_password" placeholder="Mot de passe actuel" required>
@@ -432,7 +481,7 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
                 </ul>
               </div>
               <div class="form-buttons">
-                <button type="submit" name="update_password" class="save-btn"><i class="fas fa-check"></i></button>
+                <button type="submit" class="save-btn"><i class="fas fa-check"></i></button>
                 <button type="button" class="cancel-btn" onclick="toggleEditForm('password')"><i class="fas fa-times"></i></button>
               </div>
             </form>
@@ -586,24 +635,9 @@ $title = 'Profil de ' . $user['firstname'] . ' ' . $user['lastname'];
   </main>
 
   <?php require('../components/footer.php'); ?>
-
-  <script>
-    // Function to toggle edit forms visibility
-    function toggleEditForm(fieldName) {
-      const field = document.getElementById(fieldName + '-field');
-      const form = document.getElementById(fieldName + '-form');
-
-      if (field.style.display === 'none') {
-        field.style.display = 'flex';
-        form.style.display = 'none';
-      } else {
-        field.style.display = 'none';
-        form.style.display = 'block';
-      }
-    }
-  </script>
 </body>
 
 <script src="../assets/scripts/password_check.js"></script>
+<script src="../assets/scripts/user.js"></script>
 
 </html>

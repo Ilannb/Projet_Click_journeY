@@ -162,7 +162,7 @@ $title = 'Sélection du transport';
           </div>
 
           <div class="filter-section">
-            <h3>Type</h3>
+            <h3>Type de transport</h3>
             <div class="checkbox-group">
               <?php
               // Retrieve all types from the database

@@ -129,12 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register-btn'])) {
       <div class="name-box">
         <div class="input-bar">
           <i class="fas fa-user"></i>
-          <input type="text" id="lastname" name="lastname" placeholder="Nom" required value="<?php echo isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : ''; ?>">
+          <input type="text" id="firstname" name="firstname" placeholder="Prénom" required value="<?php echo isset($_POST['firstname']) ? htmlspecialchars($_POST['firstname']) : ''; ?>">
         </div>
 
         <div class="input-bar">
           <i class="fas fa-user"></i>
-          <input type="text" id="firstname" name="firstname" placeholder="Prénom" required value="<?php echo isset($_POST['firstname']) ? htmlspecialchars($_POST['firstname']) : ''; ?>">
+          <input type="text" id="lastname" name="lastname" placeholder="Nom" required value="<?php echo isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : ''; ?>">
         </div>
       </div>
 

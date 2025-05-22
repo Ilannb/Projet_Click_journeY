@@ -94,7 +94,7 @@ if (isset($_SESSION['selected_accommodation']) && isset($_GET['id']) && isset($_
 
 // Title of the page
 $icon = '<i class="fa-solid fa-bed"></i>';
-$title = 'Accommodation Selection';
+$title = 'Sélection Hébergement';
 ?> 
 <!DOCTYPE html>
 <html lang="fr">
@@ -129,7 +129,7 @@ $title = 'Accommodation Selection';
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
-  <title>LakEvasion - Accommodation Selection</title>
+  <title>LakEvasion - Selection Hébergement </title>
 </head>
 
 <body>
@@ -138,14 +138,14 @@ $title = 'Accommodation Selection';
   <main>
     <div class="page-container">
       <aside class="filters-sidebar">
-        <h2>Filters</h2>
+        <h2>Filtres<h2>
         <form class="filters-content" action="" method="get">
           <?php if (isset($_GET['id']) && !empty($_GET['id'])): ?>
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET['id']); ?>">
           <?php endif; ?>
 
           <div class="filter-section">
-            <h3>Search</h3>
+            <h3>Recherche<h3>
             <div class="search-bar">
               <input type="text" name="search" placeholder="Search for accommodation..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
               <i class="fas fa-search"></i>
@@ -153,7 +153,7 @@ $title = 'Accommodation Selection';
           </div>
 
           <div class="filter-section">
-            <h3>Type</h3>
+            <h3>Type de logement<h3>
             <div class="checkbox-group">
               <?php
               // Get all types from database
@@ -177,7 +177,7 @@ $title = 'Accommodation Selection';
           </div>
 
           <div class="filter-section">
-            <h3>Price per night</h3>
+            <h3>Prix de la nuit<h3>
             <div class="range-filter">
               <div class="input-bar">
                 <input type="text" name="min_price" placeholder="Min" value="<?php echo isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : ''; ?>">
@@ -192,11 +192,11 @@ $title = 'Accommodation Selection';
           </div>
 
           <button class="apply filters-btn">
-            Apply filters
+            Appliquer les filtres
             <i class="fas fa-filter"></i>
           </button>
           <a href="selection-hebergement<?php echo isset($_GET['id']) ? '?id=' . $_GET['id'] : ''; ?>" class="reset filters-btn">
-            Reset filters
+            Réinitialiser les filtres  
             <i class="fas fa-undo"></i>
           </a>
         </form>
@@ -205,20 +205,20 @@ $title = 'Accommodation Selection';
       <section class="destinations-results">
         <?php if ($destinationInfo): ?>
           <div class="day-info">
-            Accommodation selection for <strong><?php echo htmlspecialchars($destinationInfo['title']); ?></strong>
-            <p>Duration of stay: <strong><?php echo htmlspecialchars($destinationInfo['duration']); ?> days</strong></p>
+             Sélection de l'hébergement pour  <strong><?php echo htmlspecialchars($destinationInfo['title']); ?></strong>
+            <p>Durée du séjour <strong><?php echo htmlspecialchars($destinationInfo['duration']); ?>jours</strong></p>
           </div>
         <?php endif; ?>
 
         <div class="results-header">
           <div class="results-controls">
             <?php if ($resultsCount > 1): ?>
-              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> results found</p>
+              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> resultats trouvés </p>
             <?php else: ?>
-              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> result found</p>
+              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> resultat trouvé</p>
             <?php endif; ?>
             <div class="sort-box">
-              <label for="sort">Sort by:</label>
+              <label for="sort">Trier par :</label>
               <select id="sort" name="sort">
                 <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularité</option>
                 <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Prix croissant</option>
@@ -235,7 +235,7 @@ $title = 'Accommodation Selection';
             <?php global $accommodation_number;
             $accommodation_number = 0; ?>
             <?php if (empty($accommodations)): ?>
-              <p>No accommodations are currently available.</p>
+              <p>Aucun logement n'est actuellement disponible.</p>
             <?php else: ?>
               <?php foreach ($accommodations as $accommodation): ?>
                 <?php $accommodation_number++; ?>
@@ -288,9 +288,9 @@ $title = 'Accommodation Selection';
                       <p class="description"><?php echo htmlspecialchars($accommodation['description']); ?></p>
                     </div>
                     <p class="price">
-                      <span class="euros bolded"><?php echo $accommodation['base_price']; ?>€</span> /night
+                      <span class="euros bolded"><?php echo $accommodation['base_price']; ?>€</span> /nuit
                       <?php if ($destinationInfo): ?>
-                        <span class="total-price">(Total: <strong><?php echo $accommodation['base_price'] * ($destinationInfo['duration'] - 1); ?>€</strong> for <?php echo $destinationInfo['duration'] - 1; ?> nights)</span>
+                        <span class="total-price">(Total: <strong><?php echo $accommodation['base_price'] * ($destinationInfo['duration'] - 1); ?>€</strong> pour <?php echo $destinationInfo['duration'] - 1; ?> nuits)</span>
                       <?php endif; ?>
                     </p>
                   </div>
@@ -299,7 +299,7 @@ $title = 'Accommodation Selection';
             <?php endif; ?>
           </div>
 
-          <button type="submit" class="confirm-selection-btn">Confirm selection</button>
+          <button type="submit" class="confirm-selection-btn">Confirmer la selection</button>
         </form>
       </section>
     </div>

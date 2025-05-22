@@ -664,7 +664,7 @@ $title = $destination['title'];
 
         <!-- Additional information section -->
         <section class="info-section">
-          <h2>Informations complémentaires</h2>
+          <h2>Hébergement et Transport</h2>
           <div class="info-grid">
             <div class="info">
               <i class="fas fa-bed"></i>

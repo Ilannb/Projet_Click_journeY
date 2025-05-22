@@ -95,11 +95,11 @@ if (isset($_SESSION['selected_meals']) && isset($_GET['id'])) {
 // Title of the page
 $icon = '<i class="fa-solid fa-utensils"></i>';
 if ($period == 'breakfast') {
-  $title = 'Meal Selection - Breakfast (Day ' . $day . ')';
+  $title = 'Sélection repas - Petit Déjeuner (Day ' . $day . ')';
 } else if ($period == 'morning') {
-  $title = 'Meal Selection - Lunch (Day ' . $day . ')';
+  $title = 'Sélection - Déjeuner (Day ' . $day . ')';
 } else {
-  $title = 'Meal Selection - Dinner (Day ' . $day . ')';
+  $title = 'Sélection - Dîner (Day ' . $day . ')';
 }
 ?>
 <!DOCTYPE html>
@@ -135,7 +135,7 @@ if ($period == 'breakfast') {
 
   <!-- Tab Display -->
   <link rel="icon" href="../assets/src/img/favicon.ico" type="image/x-icon">
-  <title>LakEvasion - Meal Selection</title>
+  <title>LakEvasion - Sélection Restauration</title>
 </head>
 
 <body>
@@ -144,7 +144,7 @@ if ($period == 'breakfast') {
   <main>
     <div class="page-container">
       <aside class="filters-sidebar">
-        <h2>Filters</h2>
+        <h2>Filtres</h2>
         <form class="filters-content" action="" method="get">
           <?php if (isset($_GET['id']) && !empty($_GET['id'])): ?>
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET['id']); ?>">
@@ -154,7 +154,7 @@ if ($period == 'breakfast') {
           <input type="hidden" name="period" value="<?php echo $period; ?>">
 
           <div class="filter-section">
-            <h3>Search</h3>
+            <h3>Recherche</h3>
             <div class="search-bar">
               <input type="text" name="search" placeholder="Search for a restaurant..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
               <i class="fas fa-search"></i>
@@ -162,7 +162,7 @@ if ($period == 'breakfast') {
           </div>
 
           <div class="filter-section">
-            <h3>Cuisine Type</h3>
+            <h3>Type de restauration</h3>
             <div class="checkbox-group">
               <?php
               // Get all types from database
@@ -201,11 +201,11 @@ if ($period == 'breakfast') {
           </div>
 
           <button class="apply filters-btn">
-            Apply Filters
+            Appliquer les filtres
             <i class="fas fa-filter"></i>
           </button>
           <a href="selection-restauration<?php echo isset($_GET['id']) ? '?id=' . $_GET['id'] . '&day=' . $day . '&period=' . $period : ''; ?>" class="reset filters-btn">
-            Reset Filters
+            Réinitialiser les filtres
             <i class="fas fa-undo"></i>
           </a>
         </form>
@@ -214,33 +214,33 @@ if ($period == 'breakfast') {
       <section class="destinations-results">
         <?php if ($destinationInfo): ?>
           <div class="day-info">
-            Meal selection for
+            Selection du 
             <?php
             if ($period == 'breakfast') {
-              echo 'Breakfast';
+              echo 'petit déjeuner';
             } else if ($period == 'morning') {
-              echo 'Lunch';
+              echo 'Déjeuner';
             } else {
-              echo 'Dinner';
+              echo 'Dîner';
             }
             ?>
-            on Day <?php echo $day; ?> at <?php echo htmlspecialchars($destinationInfo['title']); ?>
+            pour le jour <?php echo $day; ?> au <?php echo htmlspecialchars($destinationInfo['title']); ?>
           </div>
         <?php endif; ?>
 
         <div class="results-header">
           <div class="results-controls">
             <?php if ($resultsCount > 1): ?>
-              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> results found</p>
+              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> resultats trouvés </p>
             <?php else: ?>
-              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> result found</p>
+              <p><span id="results-count" class="results-count bolded"><?php echo $resultsCount ?></span> resultat trouvé </p>
             <?php endif; ?>
             <div class="sort-box">
-              <label for="sort">Sort by:</label>
+              <label for="sort">Trier par:</label>
               <select id="sort" name="sort">
-                <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularity</option>
-                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Price (ascending)</option>
-                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Price (descending)</option>
+                <option value="popular" <?php echo (!isset($_GET['sort']) || $_GET['sort'] === 'popular') ? 'selected' : ''; ?>>Popularité</option>
+                <option value="price-asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-asc') ? 'selected' : ''; ?>>Prix (croissant)</option>
+                <option value="price-desc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'price-desc') ? 'selected' : ''; ?>>Prix (décroissant)</option>
               </select>
             </div>
           </div>
@@ -255,7 +255,7 @@ if ($period == 'breakfast') {
             <?php global $restaurant_number;
             $restaurant_number = 0; ?>
             <?php if (empty($restaurants)): ?>
-              <p>No restaurants are currently available.</p>
+              <p>Aucun restaurant n'est actuellement dsponible</p>
             <?php else: ?>
               <?php foreach ($restaurants as $restaurant): ?>
                 <?php $restaurant_number++; ?>
@@ -309,7 +309,7 @@ if ($period == 'breakfast') {
                         <p class="country"><?php echo htmlspecialchars($restaurant['description']); ?></p>
                       </div>
                     </div>
-                    <p class="price">Starting from <span class="euros bolded"><?php echo $restaurant['base_price']; ?>€</span> /person</p>
+                    <p class="price">À partir de <span class="euros bolded"><?php echo $restaurant['base_price']; ?>€</span> /personne</p>
                   </div>
                 </div>
               <?php endforeach; ?>
@@ -338,19 +338,19 @@ if ($period == 'breakfast') {
                   <div class="country-box">
                     <p class="country">
                       <?php if ($period == 'breakfast'): ?>
-                        You are free to choose where to have your breakfast that day.
+                       Vous êtes libre de choisir où petit-déjeuner 
                       <?php else: ?>
-                        You are free to choose where to eat that day.
+                       Vous êtes libre de choisir où vous restaurer
                       <?php endif; ?>
                     </p>
                   </div>
                 </div>
-                <p class="price">Starting from <span class="euros bolded">0€</span> /person</p>
+                <p class="price">A<span class="euros bolded">0€</span> /personne</p>
               </div>
             </div>
           </div>
 
-          <button type="submit" class="confirm-selection-btn">Confirm Selection</button>
+          <button type="submit" class="confirm-selection-btn">Confirmer la Selection</button>
         </form>
       </section>
     </div>
