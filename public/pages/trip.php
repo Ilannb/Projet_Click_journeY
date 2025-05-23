@@ -162,9 +162,11 @@ if (isset($_SESSION['selected_transport'][$id])) {
   $_SESSION['selected_transport'][$id]['transport_id'] = $defaultTransportId;
 }
 
+$travelers = isset($_GET['travelers']) ? max(1, intval($_GET['travelers'])) : 1;
+
 // Calculate prices
 $pricePerDay = round($destination['price'] / $destination['duration']);
-$totalPrice = $destination['price'] + $totalActivityPrice + $totalMealPrice + $accommodationTotalPrice + $transportPrice;
+$totalPrice = ($destination['price'] + $totalActivityPrice + $totalMealPrice + $accommodationTotalPrice + $transportPrice) * $travelers;
 
 // Handle date selection
 $defaultStartDate = date('Y-m-d', strtotime('+7 days'));
@@ -640,11 +642,9 @@ $title = $destination['title'];
         </section>
 
         <!-- Date selection section -->
-        <section class="dates-section" id="dates-section">
+        <section class="dates-section" id="dates-section" data-duration="<?php echo $duration; ?>">
           <h2>Choisir vos dates</h2>
-          <form action="" method="get" class="date-selection-form">
-            <input type="hidden" name="id" value="<?php echo $id; ?>">
-            <input type="hidden" name="update_dates" value="1">
+          <div class="date-selection-form">
             <div class="date-selection-container">
               <div class="date-field">
                 <label for="temp_start_date">Date de départ</label>
@@ -658,8 +658,8 @@ $title = $destination['title'];
                 <p class="date-info"><i class="fas fa-info-circle"></i> Calculée automatiquement (séjour de <?php echo $duration; ?> jours)</p>
               </div>
             </div>
-            <button type="submit" class="update-dates-button">Mettre à jour les dates</button>
-          </form>
+            <button type="button" class="update-dates-button">Mettre à jour les dates</button>
+          </div>
         </section>
 
         <!-- Additional information section -->
@@ -788,5 +788,7 @@ $title = $destination['title'];
 
   <?php require('../components/footer.php'); ?>
 </body>
+
+<script src="../assets/scripts/trip.js"></script>
 
 </html>
